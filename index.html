@@ -1089,7 +1089,7 @@ tr:hover td { background: var(--bone-soft); }
   line-height: 1;
   margin-bottom: 6px;
 }
-.predict-kpi.hero .predict-kpi-value { color: var(--yellow); }
+.predict-kpi.hero .predict-kpi-value { color: var(--brand-yellow); }
 .predict-kpi-sub {
   font-size: 10px;
   color: var(--muted);
@@ -1198,13 +1198,13 @@ tr:hover td { background: var(--bone-soft); }
 .toast-success  { border-left-color: var(--moss); }
 .toast-warn     { border-left-color: var(--gold); }
 .toast-error    { border-left-color: var(--rust); }
-.toast-info     { border-left-color: var(--yellow); }
+.toast-info     { border-left-color: var(--brand-yellow); }
 
 
 /* === FIX QPK black-on-black + Health row v2 === */
 .predict-kpi.hero .predict-kpi-value,
 .predict-kpi.hero .predict-kpi-value * {
-  color: var(--yellow) !important;
+  color: var(--brand-yellow) !important;
 }
 .predict-kpi.hero .predict-kpi-label {
   color: rgba(255, 255, 255, 0.55) !important;
@@ -1285,7 +1285,7 @@ tr:hover td { background: var(--bone-soft); }
     <div style="font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:.15em;
                 color:rgba(255,255,255,.5);text-transform:uppercase;">PÁSSARO VERDE</div>
     <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,.15);
-                border-top-color:var(--yellow);border-radius:50%;animation:spin .8s linear infinite;"></div>
+                border-top-color:var(--brand-yellow);border-radius:50%;animation:spin .8s linear infinite;"></div>
     <div id="loadingMsg" style="font-family:'JetBrains Mono',monospace;font-size:11px;
                 color:rgba(255,255,255,.4);letter-spacing:.08em;"></div>
   </div>
@@ -1294,16 +1294,16 @@ tr:hover td { background: var(--bone-soft); }
     align-items:center;justify-content:center;padding:40px;">
     <div style="max-width:480px;text-align:center;">
       <div style="font-size:32px;margin-bottom:16px;">⚠️</div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--yellow);
+      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--brand-yellow);
                   letter-spacing:.05em;margin-bottom:12px;">ERRO AO CARREGAR DADOS</div>
       <div id="errorMsg" style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:24px;line-height:1.6;"></div>
       <div style="font-size:12px;color:rgba(255,255,255,.35);line-height:1.8;margin-bottom:24px;">
         Verifique se a planilha está publicada:<br>
-        <span style="color:var(--yellow);">Arquivo → Compartilhar → Publicar na web → CSV</span><br>
+        <span style="color:var(--brand-yellow);">Arquivo → Compartilhar → Publicar na web → CSV</span><br>
         e que a URL está correta no código do dashboard.
       </div>
       <button onclick="location.reload()" style="
-        background:var(--yellow);color:var(--ink);border:none;padding:10px 24px;
+        background:var(--brand-yellow);color:var(--ink);border:none;padding:10px 24px;
         font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.08em;
         cursor:pointer;">↺ TENTAR NOVAMENTE</button>
     </div>
@@ -2184,6 +2184,36 @@ let refreshTimer = null;             // ID do setInterval
 // UI HELPERS — overlay, indicador LIVE, toasts
 // ============================================================
 
+// Controle do overlay de carregamento/erro
+function showLoading(msg = 'Carregando…') {
+  const overlay = document.getElementById('loadingOverlay');
+  const errorOverlay = document.getElementById('errorOverlay');
+  const msgEl = document.getElementById('loadingMsg');
+  if (msgEl) msgEl.textContent = msg;
+  if (errorOverlay) errorOverlay.style.display = 'none';
+  if (overlay) {
+    overlay.style.display = 'flex';
+    overlay.style.opacity = '1';
+    overlay.style.transition = 'opacity .25s ease';
+  }
+}
+
+function hideLoading() {
+  const overlay = document.getElementById('loadingOverlay');
+  if (!overlay) return;
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.style.display = 'none'; }, 250);
+}
+
+function showError(msg = 'Erro desconhecido') {
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  const errorOverlay = document.getElementById('errorOverlay');
+  const msgEl = document.getElementById('errorMsg');
+  if (loadingOverlay) loadingOverlay.style.display = 'none';
+  if (msgEl) msgEl.textContent = msg;
+  if (errorOverlay) errorOverlay.style.display = 'flex';
+}
+
 // Indicador LIVE: 'live' (verde) | 'refreshing' (amarelo pulsando) | 'error' (vermelho) | 'paused' (cinza)
 function setLiveStatus(status) {
   const dot = document.getElementById('liveDot');
@@ -2234,9 +2264,16 @@ async function fetchData(silent = false) {
   try {
     // cache-busting para forçar refresh real (Google Sheets cacheia ~5min)
     const url = SHEETS_CSV_URL + (SHEETS_CSV_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
-    const resp = await fetch(url, { mode: 'cors', cache: 'no-store' });
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const resp = await fetch(url, { mode: 'cors', cache: 'no-store', signal: controller.signal });
+    clearTimeout(timeoutId);
     if (!resp.ok) throw new Error(`HTTP ${resp.status} — ${resp.statusText}`);
     const text = await resp.text();
+
+    if (/^\s*</.test(text) || text.includes('google.visualization.Query.setResponse')) {
+      throw new Error('A URL não retornou um CSV válido. Publique a planilha na web como CSV e confirme se o link termina com output=csv.');
+    }
 
     if (!silent) showLoading('Processando dados…');
 
@@ -2380,18 +2417,20 @@ const GRAV_COLORS = {
 // ============================================
 // Chart.js global defaults
 // ============================================
-Chart.defaults.font.family = "'DM Sans', system-ui, sans-serif";
-Chart.defaults.font.size = 11;
-Chart.defaults.color = C.muted;
-Chart.defaults.borderColor = C.rule;
-Chart.defaults.plugins.legend.display = false;
-Chart.defaults.plugins.tooltip.backgroundColor = C.ink;
-Chart.defaults.plugins.tooltip.titleColor = C.paper;
-Chart.defaults.plugins.tooltip.bodyColor = C.paper;
-Chart.defaults.plugins.tooltip.padding = 10;
-Chart.defaults.plugins.tooltip.cornerRadius = 0;
-Chart.defaults.plugins.tooltip.titleFont = { family: "'JetBrains Mono', monospace", size: 10, weight: '500' };
-Chart.defaults.plugins.tooltip.bodyFont = { family: "'DM Sans', sans-serif", size: 12 };
+if (window.Chart) {
+  Chart.defaults.font.family = "'DM Sans', system-ui, sans-serif";
+  Chart.defaults.font.size = 11;
+  Chart.defaults.color = C.muted;
+  Chart.defaults.borderColor = C.rule;
+  Chart.defaults.plugins.legend.display = false;
+  Chart.defaults.plugins.tooltip.backgroundColor = C.ink;
+  Chart.defaults.plugins.tooltip.titleColor = C.paper;
+  Chart.defaults.plugins.tooltip.bodyColor = C.paper;
+  Chart.defaults.plugins.tooltip.padding = 10;
+  Chart.defaults.plugins.tooltip.cornerRadius = 0;
+  Chart.defaults.plugins.tooltip.titleFont = { family: "'JetBrains Mono', monospace", size: 10, weight: '500' };
+  Chart.defaults.plugins.tooltip.bodyFont = { family: "'DM Sans', sans-serif", size: 12 };
+}
 
 // ============================================
 // HELPERS
@@ -4217,22 +4256,8 @@ function renderAll() {
 // ============================================
 // INIT
 // ============================================
-window.addEventListener('DOMContentLoaded', () => {
-  // nav listeners
-  document.querySelectorAll('.nav-item[data-tab]').forEach(n => {
-    n.addEventListener('click', () => switchTab(n.dataset.tab));
-  });
-  // period filter
-  document.querySelectorAll('.filter-pill[data-period]').forEach(b => {
-    b.addEventListener('click', () => {
-      document.querySelectorAll('.filter-pill[data-period]').forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      applyPeriod(b.dataset.period);
-    });
-  });
-  setupRecordsFilters();
-  renderAll();
-});// ============================================================
+// Inicialização antiga duplicada removida.
+// ============================================================
 // INICIALIZAÇÃO — carrega dados da planilha e inicia dashboard
 // ============================================================
 // ============================================================
