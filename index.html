@@ -1102,6 +1102,178 @@ tr:hover td { background: var(--bone-soft); }
   color: var(--muted);
 }
 
+
+/* === LIVE INDICATOR === */
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  margin-right: 12px;
+}
+.live-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--moss);
+  position: relative;
+}
+.live-dot.live {
+  background: #51A264;
+  box-shadow: 0 0 0 0 rgba(81,162,100,.6);
+  animation: pulse 2s ease-out infinite;
+}
+.live-dot.refreshing {
+  background: var(--gold);
+  animation: pulse-fast .6s ease-out infinite;
+}
+.live-dot.error    { background: var(--rust); animation: none; }
+.live-dot.paused   { background: var(--muted); animation: none; }
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(81,162,100,.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(81,162,100,0); }
+  100% { box-shadow: 0 0 0 0 rgba(81,162,100,0); }
+}
+@keyframes pulse-fast {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .4; }
+}
+.live-label {
+  font-weight: 700;
+  color: var(--ink);
+}
+.live-time {
+  color: var(--muted);
+  font-size: 10px;
+  margin-left: 4px;
+  border-left: 1px solid var(--rule);
+  padding-left: 8px;
+}
+.live-refresh {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 4px;
+  margin-left: 4px;
+  transition: transform .3s, color .2s;
+}
+.live-refresh:hover {
+  color: var(--ink);
+  transform: rotate(180deg);
+}
+
+/* === TOAST === */
+#toastContainer {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  border-left: 3px solid var(--moss);
+  box-shadow: 0 4px 16px rgba(0,0,0,.3);
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity .3s, transform .3s;
+  pointer-events: auto;
+  min-width: 220px;
+}
+.toast.show     { opacity: 1; transform: translateX(0); }
+.toast-success  { border-left-color: var(--moss); }
+.toast-warn     { border-left-color: var(--gold); }
+.toast-error    { border-left-color: var(--rust); }
+.toast-info     { border-left-color: var(--yellow); }
+
+
+/* === FIX QPK black-on-black + Health row v2 === */
+.predict-kpi.hero .predict-kpi-value,
+.predict-kpi.hero .predict-kpi-value * {
+  color: var(--yellow) !important;
+}
+.predict-kpi.hero .predict-kpi-label {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+.predict-kpi.hero .predict-kpi-sub {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* health-row-v2: layout flex robusto */
+.health-row-v2 {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.health-row-v2:last-child { border-bottom: none; }
+.health-row-info {
+  flex: 0 0 110px;
+  min-width: 0;
+}
+.health-row-veic {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--ink);
+}
+.health-row-chassi {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.health-row-bar-wrap {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.health-row-bar {
+  height: 6px;
+  background: var(--rule);
+  position: relative;
+  overflow: hidden;
+}
+.health-row-fill {
+  height: 100%;
+  transition: width .4s ease;
+}
+.health-row-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+.health-row-score {
+  flex: 0 0 48px;
+  text-align: right;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--moss);
+}
+.health-row-score.warn { color: var(--gold); }
+.health-row-score.crit { color: var(--rust); }
+
 </style>
 </head>
 <body>
@@ -1175,7 +1347,7 @@ tr:hover td { background: var(--bone-soft); }
       <div><span class="live-dot"></span><span class="live-text">Sistema Ativo</span></div>
       <div class="user-block">
         Atualização: <span id="lastSync">--</span><br>
-        454 registros · 18 reais
+        <span id="sidebarCount">— registros</span>
       </div>
     </div>
     <div style="padding:16px;font-family:'JetBrains Mono',monospace;font-size:9px;
@@ -1191,6 +1363,12 @@ tr:hover td { background: var(--bone-soft); }
         <h1 id="pageTitle">Visão <em>Geral</em></h1>
       </div>
       <div class="h-right">
+        <div class="live-indicator" title="Status da conexão com Google Sheets">
+          <span class="live-dot live" id="liveDot"></span>
+          <span class="live-label" id="liveLabel">AO VIVO</span>
+          <span class="live-time" id="lastUpdate">conectando…</span>
+          <button class="live-refresh" id="btnRefresh" title="Atualizar agora">↻</button>
+        </div>
         <div class="date-range" id="dateRange">--</div>
         <button class="filter-pill active" data-period="all"><span class="dot"></span>Todos os Períodos</button>
         <button class="filter-pill" data-period="90">Últimos 90 dias</button>
@@ -1204,7 +1382,7 @@ tr:hover td { background: var(--bone-soft); }
       <section class="tab active" id="tab-overview">
 
         <div class="hero-strip">
-          <h2>Frota monitorada em tempo real através de <em>454 ocorrências</em> ao longo de doze meses, com cobertura sobre <em>29 municípios</em> de Minas Gerais e <span class="underline">8 tipos de chassi</span> em operação.</h2>
+          <h2 id="heroNarrative">Carregando narrativa…</h2>
           <div>
             <div class="hero-stat-label">Frota Total</div>
             <div class="hero-stat-value" id="heroFleet">—</div>
@@ -1774,6 +1952,8 @@ tr:hover td { background: var(--bone-soft); }
 // FONTE DE DADOS — Google Sheets (CSV publicado)
 // ============================================================
 const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUd7LIOy6L_vn1czWU7W-U0aAUHMpCalRLnX101PMWneE-scVuZKqlxTYJ33T94wX8w1fHkh7bOlX4/pub?gid=0&single=true&output=csv';
+const REFRESH_INTERVAL_MS = 60000; // 60 segundos — ajuste à vontade
+const MAX_REFRESH_RETRIES = 3;
 
 // Mapa de nomes de coluna da planilha → campo interno do dashboard
 const COL_MAP = {
@@ -1805,7 +1985,8 @@ const COL_MAP = {
   'Dia da Semana': 'dia_semana', 'dia_semana': 'dia_semana',
   'Mês': 'mes_nome', 'Mes': 'mes_nome', 'mes_nome': 'mes_nome',
   'Ano': 'ano', 'ano': 'ano',
-  'Clima': 'condicao_climatica', 'condicao_climatica': 'condicao_climatica', 'Condição Climática': 'condicao_climatica',
+  'Clima': 'condicao_climatica', 'condicao_climatica': 'condicao_climatica',
+  'Condição Climática': 'condicao_climatica',
   'Feriado': 'feriado', 'feriado': 'feriado',
   // Métricas
   'T. Resposta (min)': 'tempo_resposta_min', 'tempo_resposta_min': 'tempo_resposta_min',
@@ -1826,7 +2007,6 @@ const COL_MAP = {
   'Custo Operador (R$)': 'custo_peca_operador', 'custo_peca_operador': 'custo_peca_operador',
 };
 
-// Campos numéricos — converter string → number
 const NUM_FIELDS = new Set([
   'veiculo','linha','motorista','passageiros','ano',
   'tempo_resposta_min','dias_desde_manutencao','km_desde_revisao',
@@ -1834,34 +2014,10 @@ const NUM_FIELDS = new Set([
   'custo_estimado','tempo_reparo_h','idade_veiculo',
   'valor_peca','custo_peca_operador','lat','lng',
 ]);
-
-// Campos booleanos
 const BOOL_FIELDS = new Set(['feriado', 'em_garantia', 'is_real']);
-
-// Campos de data
 const DATE_FIELDS = new Set(['data']);
-
-// Mês abreviado a partir de data
 const MES_NOMES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-
-
-function showLoading(msg) {
-  const ol = document.getElementById('loadingOverlay');
-  const ml = document.getElementById('loadingMsg');
-  if (ol) ol.style.display = 'flex';
-  if (ml) ml.textContent = msg || '';
-}
-function hideLoading() {
-  const ol = document.getElementById('loadingOverlay');
-  if (ol) ol.style.display = 'none';
-}
-function showError(msg) {
-  hideLoading();
-  const eo = document.getElementById('errorOverlay');
-  const em = document.getElementById('errorMsg');
-  if (eo) eo.style.display = 'flex';
-  if (em) em.textContent = msg;
-}
+const DIA_SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
 
 function parseCSV(text) {
   const rows = [];
@@ -1890,28 +2046,24 @@ function parseCSV(text) {
     if (!line.trim()) continue;
     const cells = parseRow(line);
     if (!headers) {
-      headers = cells.map(h => h.replace(/^\uFEFF/, '')); // BOM strip
+      headers = cells.map(h => h.replace(/^\uFEFF/, ''));
       continue;
     }
     const row = {};
     headers.forEach((h, i) => {
       const field = COL_MAP[h] || h.toLowerCase().replace(/\s+/g, '_');
       let val = cells[i] !== undefined ? cells[i] : '';
-
       if (NUM_FIELDS.has(field)) {
-        const clean = val.replace(/[R$\s.]/g, '').replace(',', '.');
+        const clean = String(val).replace(/[R$\s.]/g, '').replace(',', '.');
         val = clean === '' ? 0 : parseFloat(clean) || 0;
       } else if (BOOL_FIELDS.has(field)) {
         val = val === 'SIM' || val === 'TRUE' || val === 'true' || val === '1' || val === 'Real';
       } else if (DATE_FIELDS.has(field)) {
-        // Normalizar DD/MM/YYYY → YYYY-MM-DD
-        const dmy = val.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+        const dmy = String(val).match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
         if (dmy) val = `${dmy[3]}-${dmy[2]}-${dmy[1]}`;
       }
       row[field] = val;
     });
-
-    // Derivar campos calculados que podem estar faltando
     if (!row.mes_nome && row.data) {
       const d = new Date(row.data);
       if (!isNaN(d)) row.mes_nome = MES_NOMES[d.getMonth()];
@@ -1925,21 +2077,265 @@ function parseCSV(text) {
       if (!isNaN(d)) row.ano = d.getFullYear();
     }
     if (!row.dia_semana && row.data) {
-      const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
       const d = new Date(row.data);
-      if (!isNaN(d)) row.dia_semana = dias[d.getDay()];
+      if (!isNaN(d)) row.dia_semana = DIA_SEMANA[d.getDay()];
     }
     if (!row.periodo && row.horario) {
-      const h = parseInt(row.horario.slice(0, 2)) || 0;
+      const h = parseInt(String(row.horario).slice(0, 2)) || 0;
       row.periodo = h < 6 ? 'Madrugada' : h < 12 ? 'Manhã' : h < 18 ? 'Tarde' : 'Noite';
     }
     rows.push(row);
   }
+  return enrichRows(rows);
+}
+
+// Aplica defaults para campos ausentes e deriva health_score se necessário
+function enrichRows(rows) {
+  if (!rows.length) return rows;
+
+  // Defaults para campos categóricos ausentes/vazios — evita 'undefined' nos gráficos
+  const STR_DEFAULTS = {
+    regiao: 'N/A',
+    cidade: 'N/A',
+    setor: 'OUTROS',
+    grupo: 'OUTROS',
+    gravidade: 'Média',
+    tipo_falha: 'Outros',
+    condicao_climatica: 'N/A',
+    sistema: 'OUTROS',
+    fornecedor: 'N/A',
+    peca_nome: 'N/A',
+    peca_codigo: 'N/A',
+    responsavel: 'N/A',
+    chassi: 'N/A',
+    defeito: 'N/A',
+    local: 'N/A',
+    periodo: 'Manhã',
+    dia_semana: '',
+    mes_nome: '',
+  };
+  const NUM_DEFAULTS = {
+    passageiros: 0,
+    tempo_resposta_min: 0,
+    tempo_reparo_h: 0,
+    custo_estimado: 0,
+    dias_desde_manutencao: 0,
+    km_desde_revisao: 0,
+    idade_veiculo: 0,
+    valor_peca: 0,
+    custo_peca_operador: 0,
+    prazo_garantia_meses: 0,
+    km_peca: 0,
+    lat: 0,
+    lng: 0,
+  };
+  rows.forEach(r => {
+    Object.keys(STR_DEFAULTS).forEach(k => {
+      if (r[k] === undefined || r[k] === null || r[k] === '') r[k] = STR_DEFAULTS[k];
+    });
+    Object.keys(NUM_DEFAULTS).forEach(k => {
+      if (r[k] === undefined || r[k] === null || isNaN(r[k])) r[k] = NUM_DEFAULTS[k];
+    });
+  });
+
+  // Derivar health_score se ausente
+  // Fórmula: 100 base; -10 por crítica, -5 por alta, -2 por média, -1 por baixa
+  // do veículo todo; -2 por ano de idade. Limitado entre 0 e 100.
+  const needsHealth = rows.some(r => r.health_score === undefined || r.health_score === null || isNaN(r.health_score));
+  if (needsHealth) {
+    const byVeic = {};
+    rows.forEach(r => {
+      const v = r.veiculo;
+      if (!byVeic[v]) byVeic[v] = { crit: 0, alta: 0, media: 0, baixa: 0, idade: r.idade_veiculo || 0 };
+      const g = (r.gravidade || '').toLowerCase();
+      if (g.includes('crít')) byVeic[v].crit++;
+      else if (g.includes('alta')) byVeic[v].alta++;
+      else if (g.includes('méd') || g.includes('med')) byVeic[v].media++;
+      else byVeic[v].baixa++;
+      if (r.idade_veiculo > byVeic[v].idade) byVeic[v].idade = r.idade_veiculo;
+    });
+    const scoreOf = v => {
+      const s = byVeic[v];
+      if (!s) return 75;
+      const score = 100 - (s.crit * 10) - (s.alta * 5) - (s.media * 2) - (s.baixa * 1) - (s.idade * 2);
+      return Math.max(0, Math.min(100, Math.round(score)));
+    };
+    rows.forEach(r => {
+      if (r.health_score === undefined || r.health_score === null || isNaN(r.health_score) || r.health_score === 0) {
+        r.health_score = scoreOf(r.veiculo);
+      }
+    });
+  }
   return rows;
 }
 
+// ============================================================
+// ESTADO GLOBAL — em tempo real
+// ============================================================
 let ALL = [];
 let DATA = [];
+let dataMaxDate = new Date();        // data mais recente dos dados (recalculada a cada refresh)
+let lastFetchTime = null;            // Date — último fetch bem-sucedido
+let lastRecordCount = 0;             // contagem anterior, para detectar novos registros
+let isRefreshing = false;            // mutex contra fetches simultâneos
+let refreshTimer = null;             // ID do setInterval
+
+// ============================================================
+// UI HELPERS — overlay, indicador LIVE, toasts
+// ============================================================
+
+// Indicador LIVE: 'live' (verde) | 'refreshing' (amarelo pulsando) | 'error' (vermelho) | 'paused' (cinza)
+function setLiveStatus(status) {
+  const dot = document.getElementById('liveDot');
+  const lbl = document.getElementById('liveLabel');
+  if (!dot || !lbl) return;
+  dot.className = 'live-dot ' + status;
+  const labels = { live: 'AO VIVO', refreshing: 'ATUALIZANDO', error: 'ERRO', paused: 'PAUSADO' };
+  lbl.textContent = labels[status] || 'AO VIVO';
+}
+
+function updateRelativeTime() {
+  const el = document.getElementById('lastUpdate');
+  if (!el || !lastFetchTime) return;
+  const seconds = Math.floor((Date.now() - lastFetchTime.getTime()) / 1000);
+  let text;
+  if (seconds < 5)         text = 'agora mesmo';
+  else if (seconds < 60)   text = `há ${seconds}s`;
+  else if (seconds < 3600) text = `há ${Math.floor(seconds/60)}min`;
+  else                     text = `há ${Math.floor(seconds/3600)}h`;
+  el.textContent = `atualizado ${text}`;
+}
+
+function showToast(msg, level = 'info') {
+  const cont = document.getElementById('toastContainer');
+  if (!cont) return;
+  const toast = document.createElement('div');
+  toast.className = 'toast toast-' + level;
+  toast.textContent = msg;
+  cont.appendChild(toast);
+  // animação de entrada via CSS
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 4500);
+}
+
+// ============================================================
+// FETCH DE DADOS — silent=true não mostra overlay (usado em auto-refresh)
+// ============================================================
+async function fetchData(silent = false) {
+  if (isRefreshing) return false;
+  isRefreshing = true;
+  setLiveStatus('refreshing');
+
+  if (!silent) showLoading('Conectando ao Google Sheets…');
+
+  try {
+    // cache-busting para forçar refresh real (Google Sheets cacheia ~5min)
+    const url = SHEETS_CSV_URL + (SHEETS_CSV_URL.includes('?') ? '&' : '?') + '_t=' + Date.now();
+    const resp = await fetch(url, { mode: 'cors', cache: 'no-store' });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status} — ${resp.statusText}`);
+    const text = await resp.text();
+
+    if (!silent) showLoading('Processando dados…');
+
+    const parsed = parseCSV(text);
+    if (!parsed.length) throw new Error('Planilha vazia ou sem cabeçalhos válidos.');
+
+    // Detectar variação de contagem
+    const wasFirst = lastRecordCount === 0;
+    const delta = parsed.length - lastRecordCount;
+
+    ALL = parsed;
+    // Recalcular data máxima (corrige bug de cutoff hardcoded)
+    dataMaxDate = ALL.reduce((max, r) => {
+      const d = new Date(r.data);
+      return (!isNaN(d) && d > max) ? d : max;
+    }, new Date(0));
+    if (dataMaxDate.getTime() === 0) dataMaxDate = new Date();
+
+    // Re-aplicar filtro de período corrente
+    DATA = filterByPeriod(currentPeriod);
+
+    lastFetchTime = new Date();
+    lastRecordCount = parsed.length;
+    setLiveStatus('live');
+    updateRelativeTime();
+    updateDataSourceLabel();
+
+    if (silent) {
+      // re-render suave sem overlay
+      renderAll();
+      if (!wasFirst && delta > 0) {
+        showToast(`+${delta} novo${delta > 1 ? 's' : ''} registro${delta > 1 ? 's' : ''} carregado${delta > 1 ? 's' : ''}`, 'success');
+      } else if (!wasFirst && delta < 0) {
+        showToast(`${Math.abs(delta)} registro${Math.abs(delta) > 1 ? 's' : ''} removido${Math.abs(delta) > 1 ? 's' : ''}`, 'warn');
+      }
+    } else {
+      hideLoading();
+      renderAll();
+    }
+    return true;
+  } catch (err) {
+    setLiveStatus('error');
+    if (silent) {
+      showToast(`Falha ao atualizar: ${err.message}`, 'error');
+      console.warn('Refresh silencioso falhou:', err);
+    } else {
+      showError(err.message || 'Erro desconhecido');
+    }
+    return false;
+  } finally {
+    isRefreshing = false;
+  }
+}
+
+function filterByPeriod(p) {
+  if (p === 'all' || !p) return [...ALL];
+  const days = parseInt(p);
+  if (isNaN(days)) return [...ALL];
+  const cutoff = new Date(dataMaxDate);
+  cutoff.setDate(cutoff.getDate() - days);
+  return ALL.filter(r => {
+    const d = new Date(r.data);
+    return !isNaN(d) && d >= cutoff;
+  });
+}
+
+function updateDataSourceLabel() {
+  const src = document.getElementById('dataSrc');
+  if (src) src.textContent = `Google Sheets · ${ALL.length} registros`;
+}
+
+// ============================================================
+// AUTO-REFRESH — gerenciador
+// ============================================================
+function startAutoRefresh() {
+  stopAutoRefresh();
+  refreshTimer = setInterval(() => {
+    if (document.hidden) return; // pausar quando aba não visível
+    fetchData(true);
+  }, REFRESH_INTERVAL_MS);
+}
+
+function stopAutoRefresh() {
+  if (refreshTimer) clearInterval(refreshTimer);
+  refreshTimer = null;
+}
+
+// Page Visibility API — voltar para a aba dispara refresh imediato
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    setLiveStatus('paused');
+  } else {
+    setLiveStatus('live');
+    // se está há mais de 30s sem atualizar, busca já
+    if (lastFetchTime && (Date.now() - lastFetchTime.getTime() > 30000)) {
+      fetchData(true);
+    }
+  }
+});
 let currentPeriod = 'all';
 let map = null, markersLayer = null, heatLayer = null, clusterLayer = null;
 let currentMapLayer = 'markers';
@@ -2037,14 +2433,7 @@ function sum(arr, key) {
 // ============================================
 function applyPeriod(p) {
   currentPeriod = p;
-  if (p === 'all') {
-    DATA = [...ALL];
-  } else {
-    const days = parseInt(p);
-    const cutoff = new Date('2026-04-13');
-    cutoff.setDate(cutoff.getDate() - days);
-    DATA = ALL.filter(r => new Date(r.data) >= cutoff);
-  }
+  DATA = filterByPeriod(p);
   renderAll();
 }
 
@@ -2052,12 +2441,51 @@ function applyPeriod(p) {
 // HEADER
 // ============================================
 function renderHeader() {
-  const dates = DATA.map(r => r.data).sort();
-  const min = dates[0] || '—', max = dates[dates.length-1] || '—';
-  document.getElementById('dateRange').textContent =
-    `${fmt.date(min)} → ${fmt.date(max)}`;
-  document.getElementById('lastSync').textContent =
-    new Date().toLocaleString('pt-BR', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' });
+  const dates = DATA.map(r => r.data).filter(Boolean).sort();
+  const min = dates[0] || '—', max = dates[dates.length - 1] || '—';
+  const dateRangeEl = document.getElementById('dateRange');
+  if (dateRangeEl) dateRangeEl.textContent = `${fmt.date(min)} → ${fmt.date(max)}`;
+  const lastSyncEl = document.getElementById('lastSync');
+  if (lastSyncEl) {
+    lastSyncEl.textContent = new Date().toLocaleString('pt-BR',
+      { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' });
+  }
+
+  // Narrativa hero — dinâmica
+  const heroEl = document.getElementById('heroNarrative');
+  if (heroEl) {
+    const total = DATA.length;
+    const cidades = new Set(DATA.map(r => r.cidade).filter(c => c && c !== 'N/A')).size;
+    const chassis = new Set(DATA.map(r => r.chassi).filter(c => c && c !== 'N/A')).size;
+
+    // Calcular abrangência de meses
+    let monthSpan = '';
+    if (dates.length) {
+      const dMin = new Date(min), dMax = new Date(max);
+      const months = (dMax.getFullYear() - dMin.getFullYear()) * 12
+                   + (dMax.getMonth() - dMin.getMonth()) + 1;
+      const monthsText = ['um mês','dois meses','três meses','quatro meses','cinco meses',
+                          'seis meses','sete meses','oito meses','nove meses','dez meses',
+                          'onze meses','doze meses'];
+      monthSpan = months >= 1 && months <= 12 ? monthsText[months - 1] : `${months} meses`;
+    }
+
+    heroEl.innerHTML =
+      `Frota monitorada em tempo real através de <em>${fmt.num(total)} ${total === 1 ? 'ocorrência' : 'ocorrências'}</em> ` +
+      (monthSpan ? `ao longo de ${monthSpan}, ` : '') +
+      `com cobertura sobre <em>${cidades} ${cidades === 1 ? 'município' : 'municípios'}</em> de Minas Gerais ` +
+      `e <span class="underline">${chassis} ${chassis === 1 ? 'tipo' : 'tipos'} de chassi</span> em operação.`;
+  }
+
+  // Sidebar count
+  const sidebarCount = document.getElementById('sidebarCount');
+  if (sidebarCount) {
+    const reais = DATA.filter(r => r.is_real).length;
+    const txt = reais > 0
+      ? `${fmt.num(DATA.length)} registros · ${reais} reais`
+      : `${fmt.num(DATA.length)} registros`;
+    sidebarCount.textContent = txt;
+  }
 }
 
 // ============================================
@@ -2434,7 +2862,9 @@ function renderHotspots() {
 }
 
 function renderRegiaoChart() {
-  const byRegiao = groupBy(DATA, 'regiao');
+  const _ctx = document.getElementById('chartRegiao');
+  if (!_ctx) return;
+  const byRegiao = groupBy(DATA.filter(r => r.regiao && r.regiao !== 'N/A'), 'regiao');
   const labels = Object.keys(byRegiao);
   const data = labels.map(l => byRegiao[l].length);
   if (charts.regiao) charts.regiao.destroy();
@@ -2466,9 +2896,11 @@ function renderClimaChart() {
 }
 
 function renderRespRegiaoChart() {
-  const byRegiao = groupBy(DATA, 'regiao');
+  const _ctx = document.getElementById('chartRespRegiao');
+  if (!_ctx) return;
+  const byRegiao = groupBy(DATA.filter(r => r.regiao && r.regiao !== 'N/A'), 'regiao');
   const labels = Object.keys(byRegiao);
-  const data = labels.map(l => avg(byRegiao[l], 'tempo_resposta_min'));
+  const data = labels.map(l => +avg(byRegiao[l], 'tempo_resposta_min').toFixed(1));
   if (charts.respRegiao) charts.respRegiao.destroy();
   charts.respRegiao = new Chart(document.getElementById('chartRespRegiao'), {
     type: 'bar',
@@ -2706,7 +3138,7 @@ function renderForecast() {
   if (!dates.length) return;
 
   const start = new Date(dates[0]);
-  const end = new Date('2026-04-13');
+  const end = new Date(dataMaxDate);
   const series = [];
   for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
     const k = d.toISOString().slice(0, 10);
@@ -2871,29 +3303,37 @@ function renderAlerts() {
 }
 
 function renderHealthList() {
+  const target = document.getElementById('healthList');
+  if (!target) return;
   const byVeic = groupBy(DATA, 'veiculo');
   const list = Object.entries(byVeic).map(([k, recs]) => ({
-    veiculo: k, chassi: recs[0].chassi,
+    veiculo: k,
+    chassi: recs[0].chassi || 'N/A',
     score: Math.round(avg(recs, 'health_score')),
     incidents: recs.length,
     criticals: recs.filter(r => r.gravidade === 'Crítica').length,
     mttf: Math.round(avg(recs, 'dias_desde_manutencao')),
-  })).sort((a, b) => a.score - b.score).slice(0, 14);
+  })).filter(v => !isNaN(v.score)).sort((a, b) => a.score - b.score).slice(0, 12);
 
-  document.getElementById('healthList').innerHTML = list.map(v => {
-    const color = v.score < 40 ? 'crit' : v.score < 60 ? 'warn' : '';
-    const bar = Math.round(v.score);
-    return `<div class="health-row">
-      <div class="health-veic">#${v.veiculo}<div class="health-chassi">${v.chassi}</div></div>
-      <div style="flex:1;margin:0 14px;">
-        <div style="background:var(--rule);height:6px;border-radius:0;overflow:hidden;">
-          <div style="width:${bar}%;height:100%;background:${v.score < 40 ? 'var(--rust)' : v.score < 60 ? 'var(--gold)' : 'var(--moss)'};"></div>
-        </div>
-        <div style="font-size:10px;color:var(--muted);margin-top:3px;font-family:'JetBrains Mono',monospace;">
-          ${v.incidents} ocorrências · ${v.criticals} críticas · MTTF ${v.mttf}d
-        </div>
+  if (!list.length) {
+    target.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px;">Sem dados de saúde disponíveis</div>';
+    return;
+  }
+
+  target.innerHTML = list.map(v => {
+    const tone = v.score < 40 ? 'crit' : v.score < 60 ? 'warn' : 'ok';
+    const fillColor = v.score < 40 ? 'var(--rust)' : v.score < 60 ? 'var(--gold)' : 'var(--moss)';
+    const bar = Math.max(2, Math.min(100, v.score));
+    return `<div class="health-row-v2">
+      <div class="health-row-info">
+        <div class="health-row-veic">#${v.veiculo}</div>
+        <div class="health-row-chassi">${v.chassi}</div>
       </div>
-      <div class="health-score ${color}">${v.score}</div>
+      <div class="health-row-bar-wrap">
+        <div class="health-row-bar"><div class="health-row-fill" style="width:${bar}%;background:${fillColor};"></div></div>
+        <div class="health-row-meta">${v.incidents} ocorr. · ${v.criticals} crít. · MTTF ${v.mttf}d</div>
+      </div>
+      <div class="health-row-score ${tone}">${v.score}</div>
     </div>`;
   }).join('');
 }
@@ -3795,6 +4235,9 @@ window.addEventListener('DOMContentLoaded', () => {
 });// ============================================================
 // INICIALIZAÇÃO — carrega dados da planilha e inicia dashboard
 // ============================================================
+// ============================================================
+// INICIALIZAÇÃO
+// ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
   // nav listeners
   document.querySelectorAll('.nav-item[data-tab]').forEach(n => {
@@ -3810,36 +4253,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   setupRecordsFilters();
 
-  // ── Mostrar tela de carregamento ──
-  showLoading('Conectando ao Google Sheets…');
+  // refresh manual
+  const btnRefresh = document.getElementById('btnRefresh');
+  if (btnRefresh) btnRefresh.addEventListener('click', () => fetchData(false));
 
-  try {
-    // Usar um proxy público para evitar CORS se necessário
-    const url = SHEETS_CSV_URL;
-    const resp = await fetch(url, { mode: 'cors' });
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const text = await resp.text();
+  // timestamp relativo — atualiza a cada segundo
+  setInterval(updateRelativeTime, 1000);
 
-    showLoading('Processando dados da planilha…');
-    await new Promise(r => setTimeout(r, 30)); // yield para o browser atualizar
-
-    const parsed = parseCSV(text);
-    if (!parsed.length) throw new Error('Planilha vazia ou colunas não reconhecidas.');
-
-    ALL  = parsed;
-    DATA = [...ALL];
-
-    hideLoading();
-    renderAll();
-
-    // Atualizar rodapé com info da fonte
-    const src = document.getElementById('dataSrc');
-    if (src) src.textContent = `Google Sheets · ${ALL.length} registros carregados`;
-
-  } catch (err) {
-    showError(err.message || 'Erro desconhecido');
-  }
+  // primeiro fetch
+  const ok = await fetchData(false);
+  if (ok) startAutoRefresh();
 });
 </script>
+
+  <div id="toastContainer"></div>
 </body>
 </html>
