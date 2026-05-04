@@ -1306,9 +1306,270 @@ tr:hover td { background: var(--bone-soft); }
 }
 .heat-label-d { text-align: right; padding-right: 6px; justify-content: flex-end; aspect-ratio: auto; }
 
+
+/* === SKIP LINK === */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--ink);
+  color: var(--yellow);
+  padding: 8px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 10000;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* === FOCUS VISIBLE === */
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+.nav-item:focus-visible {
+  background: rgba(201, 219, 3, 0.15);
+  outline-offset: -2px;
+}
+.filter-pill:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+button:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* === TOUCH TARGETS — mín. 44×44px === */
+.filter-pill {
+  min-height: 44px;
+}
+.live-refresh {
+  min-width: 44px;
+  min-height: 44px;
+}
+.nav-item {
+  min-height: 44px;
+}
+.btn-icon, .pagination button {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* === INFO ICON === */
+.info-icon {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: help;
+  vertical-align: super;
+}
+
+/* === RESPONSIVIDADE === */
+/* Tablet (até 1024px) */
+@media (max-width: 1024px) {
+  .page {
+    grid-template-columns: 64px 1fr;
+  }
+  .sidebar {
+    width: 64px;
+    overflow: hidden;
+  }
+  .sidebar .nav-item span:not(.num) {
+    display: none;
+  }
+  .sidebar .brand-text,
+  .sidebar .nav-section-label {
+    display: none;
+  }
+  .content {
+    padding: 24px 20px 64px;
+  }
+  .grid.cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .grid.cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .predict-kpi-row {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .predict-kpi-row .predict-kpi:nth-child(3n) {
+    border-right: none;
+  }
+  .predict-kpi-row .predict-kpi:nth-child(-n+3) {
+    border-bottom: 1px solid var(--rule);
+  }
+  .header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .h-right {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+/* Mobile (até 768px) */
+@media (max-width: 768px) {
+  .page {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 8px 0;
+    z-index: 100;
+    border-top: 1px solid var(--rule);
+    border-right: none;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+  }
+  .sidebar .brand,
+  .sidebar .nav-section-label,
+  .sidebar #dataSrc {
+    display: none;
+  }
+  .sidebar .nav-section {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+  }
+  .sidebar .nav-item {
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4px;
+    gap: 2px;
+    font-size: 9px;
+    text-align: center;
+  }
+  .sidebar .nav-item .num {
+    display: none;
+  }
+  .content {
+    padding: 16px 12px 96px;
+    margin: 0;
+  }
+  .grid.cols-2,
+  .grid.cols-3,
+  .grid.cols-4 {
+    grid-template-columns: 1fr !important;
+  }
+  .hero-strip {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+  .hero-strip h2 {
+    font-size: 18px;
+  }
+  .predict-kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .predict-kpi-row .predict-kpi {
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .predict-kpi-row .predict-kpi:nth-child(2n) {
+    border-right: none;
+  }
+  .header {
+    padding: 16px 12px;
+  }
+  .header h1 {
+    font-size: 24px;
+  }
+  .live-indicator {
+    margin-right: 0;
+    font-size: 9px;
+  }
+  .filter-pill {
+    font-size: 10px;
+    padding: 8px 10px;
+  }
+  .card {
+    padding: 16px;
+  }
+  .chart-wrap {
+    height: 240px !important;
+  }
+  .chart-wrap.tall {
+    height: 320px !important;
+  }
+  .chart-wrap.short {
+    height: 200px !important;
+  }
+  table {
+    font-size: 11px;
+  }
+  .heat-grid {
+    overflow-x: auto;
+    grid-template-columns: 40px repeat(24, 24px);
+  }
+  .heat-cell {
+    font-size: 8px;
+  }
+  #toastContainer {
+    bottom: 80px;
+    right: 12px;
+    left: 12px;
+  }
+}
+
+/* Mobile pequeno (até 480px) */
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 20px;
+  }
+  .crumb {
+    font-size: 9px;
+  }
+  .predict-kpi-row {
+    grid-template-columns: 1fr;
+  }
+  .predict-kpi-row .predict-kpi {
+    border-right: none !important;
+  }
+  .live-time {
+    display: none;
+  }
+}
+
+/* Empty state */
+.chart-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  color: var(--muted);
+  font-size: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center;
+  gap: 8px;
+}
+.chart-empty::before {
+  content: '∅';
+  font-size: 36px;
+  opacity: 0.3;
+}
+
 </style>
 </head>
 <body>
+<a href="#main-content" class="skip-link">Pular para o conteúdo principal</a>
 
   <!-- ===== LOADING OVERLAY ===== -->
   <div id="loadingOverlay" style="
@@ -1346,7 +1607,7 @@ tr:hover td { background: var(--bone-soft); }
 
 <div class="app">
   <!-- ===== SIDEBAR ===== -->
-  <aside class="sidebar">
+  <aside class="sidebar" role="navigation" aria-label="Navegação principal">
     <div class="brand brand-block">
       <svg class="brand-logo-svg" viewBox="6000 12700 9000 4200" xmlns="http://www.w3.org/2000/svg" aria-label="Pássaro Verde">
         <path fill="#144D29" d="M12247.53 16478.75c0,0 -488.87,-1120.12 2478.66,-1937.57l-644.26 0.01c0,0 -170.14,-184.96 -438.41,-184.96l-2216.16 0 228.38 1882.6 510.3 218.79 81.49 21.13z"/>
@@ -1389,26 +1650,26 @@ tr:hover td { background: var(--bone-soft); }
 
   <!-- ===== MAIN ===== -->
   <main class="main">
-    <header class="header">
+    <header class="header" role="banner">
       <div class="h-left">
         <div class="crumb" id="crumb">Operações / Socorro de Rua</div>
         <h1 id="pageTitle">Visão <em>Geral</em></h1>
       </div>
       <div class="h-right">
-        <div class="live-indicator" title="Status da conexão com Google Sheets">
+        <div class="live-indicator" role="status" aria-live="polite" title="Status da conexão com Google Sheets">
           <span class="live-dot live" id="liveDot"></span>
           <span class="live-label" id="liveLabel">AO VIVO</span>
           <span class="live-time" id="lastUpdate">conectando…</span>
-          <button class="live-refresh" id="btnRefresh" title="Atualizar agora">↻</button>
+          <button class="live-refresh" id="btnRefresh" type="button" title="Atualizar agora" aria-label="Atualizar dados agora">↻</button>
         </div>
         <div class="date-range" id="dateRange">--</div>
-        <button class="filter-pill active" data-period="all"><span class="dot"></span>Todos os Períodos</button>
-        <button class="filter-pill" data-period="90">Últimos 90 dias</button>
-        <button class="filter-pill" data-period="30">Últimos 30 dias</button>
+        <button class="filter-pill active" data-period="all" type="button" aria-pressed="false"><span class="dot"></span>Todos os Períodos</button>
+        <button class="filter-pill" data-period="90" type="button" aria-pressed="false">Últimos 90 dias</button>
+        <button class="filter-pill" data-period="30" type="button" aria-pressed="false">Últimos 30 dias</button>
       </div>
     </header>
 
-    <div class="content">
+    <main class="content" id="main-content" role="main" tabindex="-1">
 
       <!-- ===== TAB 1: OVERVIEW ===== -->
       <section class="tab active" id="tab-overview">
@@ -1460,17 +1721,17 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-2">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Evolução temporal das ocorrências</div>
+              <h3 class="card-title">Evolução temporal das ocorrências</h3>
               <div class="card-meta">Mensal · 12m</div>
             </div>
-            <div class="chart-wrap"><canvas id="chartTimeline"></canvas></div>
+            <div class="chart-wrap"><canvas id="chartTimeline" role="img" aria-label="Linha do tempo de ocorrências"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Distribuição por setor</div>
+              <h3 class="card-title">Distribuição por setor</h3>
               <div class="card-meta">% do volume</div>
             </div>
-            <div class="chart-wrap"><canvas id="chartSector"></canvas></div>
+            <div class="chart-wrap"><canvas id="chartSector" role="img" aria-label="Distribuição por setor"></canvas></div>
           </div>
         </div>
 
@@ -1478,21 +1739,21 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-3">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Veículos com mais incidentes</div>
+              <h3 class="card-title">Veículos com mais incidentes</h3>
               <div class="card-meta">Top 8</div>
             </div>
             <ul class="rank-list" id="rankVehicles"></ul>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Defeitos recorrentes</div>
+              <h3 class="card-title">Defeitos recorrentes</h3>
               <div class="card-meta">Top 8</div>
             </div>
             <ul class="rank-list" id="rankDefects"></ul>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Linhas mais críticas</div>
+              <h3 class="card-title">Linhas mais críticas</h3>
               <div class="card-meta">Top 8</div>
             </div>
             <ul class="rank-list" id="rankLines"></ul>
@@ -1503,17 +1764,17 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-2">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Frota por tipo de chassi</div>
+              <h3 class="card-title">Frota por tipo de chassi</h3>
               <div class="card-meta">Treemap</div>
             </div>
             <div id="treemap"></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Período do dia × Setor</div>
+              <h3 class="card-title">Período do dia × Setor</h3>
               <div class="card-meta">Stacked</div>
             </div>
-            <div class="chart-wrap"><canvas id="chartPeriod"></canvas></div>
+            <div class="chart-wrap"><canvas id="chartPeriod" role="img" aria-label="Distribuição por período do dia"></canvas></div>
           </div>
         </div>
 
@@ -1541,11 +1802,11 @@ tr:hover td { background: var(--bone-soft); }
 
         <div class="grid cols-2" style="grid-template-columns: 2.5fr 1fr;">
           <div>
-            <div id="map"></div>
+            <div id="map" role="region" aria-label="Mapa interativo de ocorrências"></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Hotspots de Incidência</div>
+              <h3 class="card-title">Hotspots de Incidência</h3>
               <div class="card-meta">por município</div>
             </div>
             <div id="hotspotList" style="max-height: 510px; overflow-y: auto;"></div>
@@ -1555,24 +1816,24 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-3" style="margin-top: 24px;">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Por Região</div>
+              <h3 class="card-title">Por Região</h3>
               <div class="card-meta">MG</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartRegiao"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartRegiao" role="img" aria-label="Ocorrências por região"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Condições Climáticas</div>
+              <h3 class="card-title">Condições Climáticas</h3>
               <div class="card-meta">no momento do socorro</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartClima"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartClima" role="img" aria-label="Distribuição por condição climática"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Tempo Médio de Resposta</div>
+              <h3 class="card-title">Tempo Médio de Resposta</h3>
               <div class="card-meta">por região</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartRespRegiao"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartRespRegiao" role="img" aria-label="Tempo médio de resposta por região"></canvas></div>
           </div>
         </div>
 
@@ -1584,10 +1845,10 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-2">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Mapa de Calor Temporal</div>
+              <h3 class="card-title">Mapa de Calor Temporal</h3>
               <div class="card-meta">Hora × Dia da Semana</div>
             </div>
-            <div id="heatmap"></div>
+            <div id="heatmap" role="img" aria-label="Mapa de calor de ocorrências por dia da semana e hora"></div>
             <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px; font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em;">
               <span>menos</span>
               <div style="display: flex; gap: 2px;">
@@ -1602,10 +1863,10 @@ tr:hover td { background: var(--bone-soft); }
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Análise de Pareto</div>
+              <h3 class="card-title">Análise de Pareto</h3>
               <div class="card-meta">80/20 dos veículos</div>
             </div>
-            <div class="pareto-wrap"><canvas id="chartPareto"></canvas></div>
+            <div class="pareto-wrap"><canvas id="chartPareto" role="img" aria-label="Pareto de veículos com mais ocorrências"></canvas></div>
             <div style="margin-top: 12px; font-size: 11px; color: var(--muted); font-style: italic;" id="paretoInsight"></div>
           </div>
         </div>
@@ -1613,7 +1874,7 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-3">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Tempo Médio de Resposta</div>
+              <h3 class="card-title">Tempo Médio de Resposta</h3>
               <div class="card-meta">indicador</div>
             </div>
             <div class="gauge-wrap">
@@ -1627,31 +1888,31 @@ tr:hover td { background: var(--bone-soft); }
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Custo Total Estimado</div>
+              <h3 class="card-title">Custo Total Estimado</h3>
               <div class="card-meta">distribuição</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartCost"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartCost" role="img" aria-label="Histograma de custos"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Manutenção</div>
+              <h3 class="card-title">Manutenção</h3>
               <div class="card-meta">preventiva vs corretiva</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartMaint"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartMaint" role="img" aria-label="Distribuição por gravidade"></canvas></div>
           </div>
         </div>
 
         <div class="grid cols-2">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Distribuição por Tipo de Falha</div>
+              <h3 class="card-title">Distribuição por Tipo de Falha</h3>
               <div class="card-meta">canônico</div>
             </div>
-            <div class="chart-wrap"><canvas id="chartFalha"></canvas></div>
+            <div class="chart-wrap"><canvas id="chartFalha" role="img" aria-label="Distribuição de tipos de falha"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Top Socorristas Acionados</div>
+              <h3 class="card-title">Top Socorristas Acionados</h3>
               <div class="card-meta">volume de atendimentos</div>
             </div>
             <ul class="rank-list" id="rankSocorristas"></ul>
@@ -1691,7 +1952,7 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-2" style="grid-template-columns: 1.4fr 1fr;">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Peças com Maior Número de Falhas</div>
+              <h3 class="card-title">Peças com Maior Número de Falhas</h3>
               <div class="card-meta">ranking · acumulado %</div>
             </div>
             <div class="parts-pareto" id="partsPareto"></div>
@@ -1699,12 +1960,12 @@ tr:hover td { background: var(--bone-soft); }
 
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Falhas por Sistema</div>
+              <h3 class="card-title">Falhas por Sistema</h3>
               <div class="card-meta">distribuição técnica</div>
             </div>
             <div class="sistema-grid" id="sistemaGrid"></div>
             <div class="chart-wrap" style="height: 200px; margin-top: 18px;">
-              <canvas id="chartSistemaCusto"></canvas>
+              <canvas id="chartSistemaCusto" role="img" aria-label="Gráfico"></canvas>
             </div>
           </div>
         </div>
@@ -1712,7 +1973,7 @@ tr:hover td { background: var(--bone-soft); }
         <!-- Fornecedores ranking -->
         <div class="card" style="margin-top: 24px;">
           <div class="card-head">
-            <div class="card-title">Análise de Fornecedores</div>
+            <h3 class="card-title">Análise de Fornecedores</h3>
             <div class="card-meta">qualidade · custo · % em garantia</div>
           </div>
           <div style="overflow-x: auto;">
@@ -1737,17 +1998,17 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-2" style="margin-top: 24px;">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">KM da Peça na Falha</div>
+              <h3 class="card-title">KM da Peça na Falha</h3>
               <div class="card-meta">distribuição · alerta de mortalidade infantil</div>
             </div>
-            <div class="chart-wrap"><canvas id="chartKmPeca"></canvas></div>
+            <div class="chart-wrap"><canvas id="chartKmPeca" role="img" aria-label="Gráfico"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Garantia · Status</div>
+              <h3 class="card-title">Garantia · Status</h3>
               <div class="card-meta">cobertura efetiva</div>
             </div>
-            <div class="chart-wrap"><canvas id="chartGarantia"></canvas></div>
+            <div class="chart-wrap"><canvas id="chartGarantia" role="img" aria-label="Gráfico"></canvas></div>
             <div id="garantiaInsight" style="margin-top: 14px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--rule-soft); padding-top: 12px;"></div>
           </div>
         </div>
@@ -1756,14 +2017,14 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-2" style="margin-top: 24px;">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Custo Acumulado por Sistema</div>
+              <h3 class="card-title">Custo Acumulado por Sistema</h3>
               <div class="card-meta">onde o dinheiro está indo</div>
             </div>
-            <div class="chart-wrap"><canvas id="chartCustoSistema"></canvas></div>
+            <div class="chart-wrap"><canvas id="chartCustoSistema" role="img" aria-label="Gráfico"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Recomendações de Compras</div>
+              <h3 class="card-title">Recomendações de Compras</h3>
               <div class="card-meta">geradas a partir do histórico</div>
             </div>
             <ul class="alert-list" id="partsRecommendations"></ul>
@@ -1778,32 +2039,32 @@ tr:hover td { background: var(--bone-soft); }
         <!-- ── KPI HERO STRIP ── -->
         <div class="predict-kpi-row">
           <div class="predict-kpi hero">
-            <div class="predict-kpi-label">QPK</div>
+            <div class="predict-kpi-label" title="QPK = Quebras Por mil Km. Quanto menor, melhor. Calculado dividindo o total de ocorrências pelo total de KM rodados, multiplicado por 1000." tabindex="0" aria-describedby="tip-qpk">QPK<span class="info-icon" aria-hidden="true">ⓘ</span></div>
             <div class="predict-kpi-value" id="pKqpk">—</div>
             <div class="predict-kpi-sub">quebras / 1 000 km</div>
           </div>
           <div class="predict-kpi">
-            <div class="predict-kpi-label">MTTR</div>
+            <div class="predict-kpi-label" title="MTTR = Mean Time To Repair (tempo médio de reparo em horas). Inclui espera por peça e mão de obra. Quanto menor, melhor." tabindex="0" aria-describedby="tip-mttr">MTTR<span class="info-icon" aria-hidden="true">ⓘ</span></div>
             <div class="predict-kpi-value" id="pKmttr">—</div>
             <div class="predict-kpi-sub">tempo médio de reparo (h)</div>
           </div>
           <div class="predict-kpi">
-            <div class="predict-kpi-label">MTTF</div>
+            <div class="predict-kpi-label" title="MTTF = Mean Time To Failure (dias médios entre falhas). Aproximação: dias desde a última manutenção preventiva. Quanto maior, melhor." tabindex="0" aria-describedby="tip-mttf">MTTF<span class="info-icon" aria-hidden="true">ⓘ</span></div>
             <div class="predict-kpi-value" id="pKmttf">—</div>
             <div class="predict-kpi-sub">dias médios entre falhas</div>
           </div>
           <div class="predict-kpi">
-            <div class="predict-kpi-label">SLA Resposta</div>
+            <div class="predict-kpi-label" title="Percentual de atendimentos com tempo de resposta menor ou igual a 30 minutos. Meta: ≥ 40%." tabindex="0" aria-describedby="tip-slaresposta">SLA Resposta<span class="info-icon" aria-hidden="true">ⓘ</span></div>
             <div class="predict-kpi-value" id="pKsla">—</div>
             <div class="predict-kpi-sub">atendimentos &lt; 30 min</div>
           </div>
           <div class="predict-kpi">
-            <div class="predict-kpi-label">Confiabilidade</div>
+            <div class="predict-kpi-label" title="Percentual de falhas classificadas como Baixa ou Média (não-graves). Quanto maior, melhor." tabindex="0" aria-describedby="tip-confiabilidade">Confiabilidade<span class="info-icon" aria-hidden="true">ⓘ</span></div>
             <div class="predict-kpi-value" id="pKconf">—</div>
             <div class="predict-kpi-sub">falhas baixa + média gravidade</div>
           </div>
           <div class="predict-kpi">
-            <div class="predict-kpi-label">Custo / km</div>
+            <div class="predict-kpi-label" title="Custo operacional total dividido pela soma dos KM rodados desde a última revisão." tabindex="0" aria-describedby="tip-custokm">Custo / km<span class="info-icon" aria-hidden="true">ⓘ</span></div>
             <div class="predict-kpi-value" id="pKcpk">—</div>
             <div class="predict-kpi-sub">custo operacional por km</div>
           </div>
@@ -1816,12 +2077,12 @@ tr:hover td { background: var(--bone-soft); }
               <div class="card-title" style="color:#F4EFE6;">Previsão de Volume — Próximos 30 dias</div>
               <div class="card-meta">Holt-Winters · IC 80%</div>
             </div>
-            <div class="chart-wrap tall"><canvas id="chartForecast"></canvas></div>
+            <div class="chart-wrap tall"><canvas id="chartForecast" role="img" aria-label="Previsão de ocorrências para os próximos 30 dias"></canvas></div>
             <div style="margin-top:16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.55);letter-spacing:.05em;" id="forecastInsight">—</div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Alertas Inteligentes</div>
+              <h3 class="card-title">Alertas Inteligentes</h3>
               <div class="card-meta">priorizado por risco</div>
             </div>
             <ul class="alert-list" id="alertList"></ul>
@@ -1832,25 +2093,25 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-3">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">QPK Mensal</div>
+              <h3 class="card-title">QPK Mensal</h3>
               <div class="card-meta">quebras por 1 000 km · tendência</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartQpk"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartQpk" role="img" aria-label="QPK mensal — quebras por mil quilômetros"></canvas></div>
             <div class="predict-insight" id="insightQpk">—</div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">MTTR por Gravidade</div>
+              <h3 class="card-title">MTTR por Gravidade</h3>
               <div class="card-meta">horas médias de reparo</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartMttr"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartMttr" role="img" aria-label="MTTR por gravidade"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">SLA de Resposta</div>
+              <h3 class="card-title">SLA de Resposta</h3>
               <div class="card-meta">distribuição do tempo de atendimento</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartSla"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartSla" role="img" aria-label="Distribuição do tempo de resposta"></canvas></div>
           </div>
         </div>
 
@@ -1858,14 +2119,14 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-2">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Score de Saúde por Veículo</div>
+              <h3 class="card-title">Score de Saúde por Veículo</h3>
               <div class="card-meta">Top 14 em risco · Health Score médio</div>
             </div>
             <div id="healthList"></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Recomendações de Manutenção Preventiva</div>
+              <h3 class="card-title">Recomendações de Manutenção Preventiva</h3>
               <div class="card-meta">geradas automaticamente</div>
             </div>
             <ul class="alert-list" id="recList"></ul>
@@ -1876,24 +2137,24 @@ tr:hover td { background: var(--bone-soft); }
         <div class="grid cols-3">
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Sazonalidade Mensal</div>
+              <h3 class="card-title">Sazonalidade Mensal</h3>
               <div class="card-meta">desvio da média histórica</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartSazon"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartSazon" role="img" aria-label="Sazonalidade mensal"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Custo / km por Mês</div>
+              <h3 class="card-title">Custo / km por Mês</h3>
               <div class="card-meta">evolução do custo operacional</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartCpk"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartCpk" role="img" aria-label="Custo por km mensal"></canvas></div>
           </div>
           <div class="card">
             <div class="card-head">
-              <div class="card-title">Detecção de Anomalia</div>
+              <h3 class="card-title">Detecção de Anomalia</h3>
               <div class="card-meta">Isolation Forest · últimos 60 dias</div>
             </div>
-            <div class="chart-wrap short"><canvas id="chartAnom"></canvas></div>
+            <div class="chart-wrap short"><canvas id="chartAnom" role="img" aria-label="Detecção de anomalias"></canvas></div>
           </div>
         </div>
 
@@ -2056,6 +2317,14 @@ const DIA_SEMANA = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sáb
 // ── HELPER: parsing seguro de datas (evita bug de timezone UTC) ──
 // 'YYYY-MM-DD' interpretado como UTC pelo Date() volta -1 dia em fuso BRT.
 // Esta função sempre cria Date local (sem deslocamento).
+
+// ── HELPER: escape HTML (proteção XSS para conteúdo de planilha) ──
+const _escMap = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/[&<>"']/g, m => _escMap[m]);
+}
+
 function parseLocalDate(s) {
   if (!s) return null;
   if (s instanceof Date) return isNaN(s) ? null : s;
@@ -3059,7 +3328,7 @@ function renderHotspots() {
       <span class="hotspot-rank">${String(i+1).padStart(2,'0')}</span>
       <div>
         <div class="hotspot-name">${h.cidade}</div>
-        <div class="hotspot-region">${h.regiao}</div>
+        <div class="hotspot-region">${escapeHtml(h.regiao)}</div>
       </div>
       <div class="hotspot-count">${h.count}</div>
     </div>
@@ -3607,8 +3876,8 @@ function renderAlerts() {
   document.getElementById('alertList').innerHTML = alerts.map(a => `
     <li class="alert-item">
       <div class="alert-bar ${a.level}"></div>
-      <div><div class="alert-title">${a.title}</div><div class="alert-desc">${a.desc}</div></div>
-      <div class="alert-meta">${a.meta}</div>
+      <div><div class="alert-title">${escapeHtml(a.title)}</div><div class="alert-desc">${escapeHtml(a.desc)}</div></div>
+      <div class="alert-meta">${escapeHtml(a.meta)}</div>
     </li>`).join('');
 }
 
@@ -3636,8 +3905,8 @@ function renderHealthList() {
     const bar = Math.max(2, Math.min(100, v.score));
     return `<div class="health-row-v2">
       <div class="health-row-info">
-        <div class="health-row-veic">#${v.veiculo}</div>
-        <div class="health-row-chassi">${v.chassi}</div>
+        <div class="health-row-veic">#${escapeHtml(v.veiculo)}</div>
+        <div class="health-row-chassi">${escapeHtml(v.chassi)}</div>
       </div>
       <div class="health-row-bar-wrap">
         <div class="health-row-bar"><div class="health-row-fill" style="width:${bar}%;background:${fillColor};"></div></div>
@@ -3693,8 +3962,8 @@ function renderRecs() {
   document.getElementById('recList').innerHTML = recs.map(r => `
     <li class="alert-item">
       <div class="alert-bar ${r.level}"></div>
-      <div><div class="alert-title">${r.title}</div><div class="alert-desc">${r.desc}</div></div>
-      <div class="alert-meta">${r.meta}</div>
+      <div><div class="alert-title">${escapeHtml(r.title)}</div><div class="alert-desc">${escapeHtml(r.desc)}</div></div>
+      <div class="alert-meta">${escapeHtml(r.meta)}</div>
     </li>`).join('');
 }
 
@@ -3999,7 +4268,7 @@ function renderRecordsTable() {
       <td class="cell-mono">${(r.horario||'').slice(0,5)}</td>
       <td class="cell-mono">${r.veiculo}</td>
       <td class="cell-mono">${r.chassi}</td>
-      <td>${r.cidade}</td>
+      <td>${escapeHtml(r.cidade)}</td>
       <td class="cell-mono">${r.linha || '—'}</td>
       <td>${r.setor || '—'}</td>
       <td>${r.grupo || '—'}</td>
@@ -4047,8 +4316,15 @@ function exportCSV() {
 // TAB SWITCHING
 // ============================================
 function switchTab(id) {
-  document.querySelectorAll('.nav-item[data-tab]').forEach(n => n.classList.remove('active'));
-  document.querySelector(`.nav-item[data-tab="${id}"]`).classList.add('active');
+  document.querySelectorAll('.nav-item[data-tab]').forEach(n => {
+    n.classList.remove('active');
+    n.removeAttribute('aria-current');
+  });
+  const activeNav = document.querySelector(`.nav-item[data-tab="${id}"]`);
+  if (activeNav) {
+    activeNav.classList.add('active');
+    activeNav.setAttribute('aria-current', 'page');
+  }
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-'+id).classList.add('active');
   // Update page title
@@ -4495,10 +4771,10 @@ function renderPartsRecommendations() {
     <li class="alert-item">
       <div class="alert-bar ${r.cls}"></div>
       <div>
-        <div class="alert-title">${r.title}</div>
-        <div class="alert-desc">${r.desc}</div>
+        <div class="alert-title">${escapeHtml(r.title)}</div>
+        <div class="alert-desc">${escapeHtml(r.desc)}</div>
       </div>
-      <div class="alert-meta">${r.meta}</div>
+      <div class="alert-meta">${escapeHtml(r.meta)}</div>
     </li>
   `).join('');
 }
@@ -4542,8 +4818,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   // period filter
   document.querySelectorAll('.filter-pill[data-period]').forEach(b => {
     b.addEventListener('click', () => {
-      document.querySelectorAll('.filter-pill[data-period]').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.filter-pill[data-period]').forEach(x => {
+        x.classList.remove('active');
+        x.setAttribute('aria-pressed', 'false');
+      });
       b.classList.add('active');
+      b.setAttribute('aria-pressed', 'true');
       applyPeriod(b.dataset.period);
     });
   });
@@ -4562,6 +4842,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 </script>
 
-  <div id="toastContainer"></div>
+  <div id="toastContainer" role="status" aria-live="polite" aria-atomic="false"></div>
 </body>
 </html>
