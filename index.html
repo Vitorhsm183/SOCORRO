@@ -354,7 +354,7 @@ input, select { font-family: inherit; }
   gap: 24px;
   margin-bottom: 32px;
 }
-.grid.cols-2 { grid-template-columns: 2fr 1fr; }
+.grid.cols-2 { grid-template-columns: 1fr 1fr; }
 .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
 .grid.cols-half { grid-template-columns: 1fr 1fr; }
 
@@ -441,9 +441,31 @@ input, select { font-family: inherit; }
 }
 
 /* === CHARTS === */
-.chart-wrap { position: relative; height: 280px; width: 100%; }
-.chart-wrap.tall { height: 360px; }
-.chart-wrap.short { height: 200px; }
+/* === SISTEMA DE GRÁFICOS — alturas padronizadas com min/max === */
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  min-height: 300px;
+  max-height: 360px;
+}
+.chart-wrap.short {
+  height: 260px;
+  min-height: 240px;
+  max-height: 280px;
+}
+.chart-wrap.tall {
+  height: 420px;
+  min-height: 380px;
+  max-height: 460px;
+}
+.chart-wrap > canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+/* removed orphan */
+/* removed orphan */
 
 /* === HEATMAP === */
 .heatmap-grid {
@@ -809,7 +831,7 @@ tr:hover td { background: var(--bone-soft); }
   .app { grid-template-columns: 1fr; }
   .sidebar { position: static; height: auto; }
   .kpi-row { grid-template-columns: repeat(2, 1fr); border: 1px solid var(--rule); }
-  .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
+  .grid.cols-2, /* legacy moved to media query */
   .hero-strip { grid-template-columns: 1fr; gap: 24px; }
 }
 
@@ -1504,13 +1526,19 @@ button:focus-visible {
     padding: 16px;
   }
   .chart-wrap {
-    height: 240px !important;
-  }
-  .chart-wrap.tall {
-    height: 320px !important;
+    height: 280px;
+    min-height: 260px;
+    max-height: 300px;
   }
   .chart-wrap.short {
-    height: 200px !important;
+    height: 220px;
+    min-height: 200px;
+    max-height: 240px;
+  }
+  .chart-wrap.tall {
+    height: 340px;
+    min-height: 320px;
+    max-height: 360px;
   }
   table {
     font-size: 11px;
@@ -1567,6 +1595,116 @@ button:focus-visible {
   opacity: 0.3;
 }
 
+/* === RESPONSIVIDADE DE GRÁFICOS (sistema 3 tamanhos) === */
+/* Tablet: 1024px */
+@media (max-width: 1024px) {
+  .chart-wrap {
+    height: 300px;
+    min-height: 280px;
+    max-height: 320px;
+  }
+  .chart-wrap.short {
+    height: 240px;
+    min-height: 220px;
+    max-height: 260px;
+  }
+  .chart-wrap.tall {
+    height: 380px;
+    min-height: 360px;
+    max-height: 400px;
+  }
+  /* Grid 3 colunas vira 2 em tablet */
+  .grid.cols-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Mobile pequeno: 480px */
+@media (max-width: 480px) {
+  .chart-wrap {
+    height: 240px;
+    min-height: 220px;
+    max-height: 280px;
+  }
+  .chart-wrap.short {
+    height: 200px;
+    min-height: 180px;
+    max-height: 220px;
+  }
+  .chart-wrap.tall {
+    height: 280px;
+    min-height: 260px;
+    max-height: 320px;
+  }
+}
+
+/* === ESPAÇAMENTO CONSISTENTE === */
+.grid {
+  gap: 20px;
+}
+@media (max-width: 1024px) {
+  .grid { gap: 16px; }
+}
+@media (max-width: 768px) {
+  .grid { gap: 12px; }
+}
+
+/* === ALTURA UNIFORME DE CARDS COM GRÁFICO === */
+/* Cards em mesma linha do grid se alongam; padding consistente */
+.card {
+  display: flex;
+  flex-direction: column;
+}
+.card .card-head {
+  flex-shrink: 0;
+}
+.card .chart-wrap {
+  flex: 1;
+}
+
+/* === HEATMAP — não distorce === */
+#heatmap {
+  width: 100%;
+  min-height: 280px;
+  overflow-x: auto;
+}
+@media (max-width: 768px) {
+  #heatmap { min-height: 240px; }
+}
+
+/* === HERO STAT VALUES — alinhados === */
+.hero-strip > div {
+  min-height: 100px;
+}
+@media (max-width: 768px) {
+  .hero-strip > div { min-height: auto; }
+}
+
+/* === PREDICT KPI — altura uniforme === */
+.predict-kpi {
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* === GRID 2:1 (forecast + alerts) — vira 1 coluna em mobile === */
+.grid.cols-2.grid-2-1 {
+  grid-template-columns: 2fr 1fr;
+}
+@media (max-width: 1024px) {
+  .grid.cols-2.grid-2-1 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === SUPPLIERS / TABLES dentro de card === */
+.suppliers-table-wrap,
+.records-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 </style>
 </head>
 <body>
@@ -2072,7 +2210,7 @@ button:focus-visible {
         </div>
 
         <!-- ── ROW 2: forecast + alerts ── -->
-        <div class="grid cols-2" style="grid-template-columns: 2fr 1fr;">
+        <div class="grid cols-2 grid-2-1">
           <div class="card dark">
             <div class="card-head">
               <div class="card-title" style="color:#F4EFE6;">Previsão de Volume — Próximos 30 dias</div>
@@ -2769,6 +2907,11 @@ const GRAV_COLORS = {
 // ============================================
 if (window.Chart) {
   Chart.defaults.font.family = "'DM Sans', system-ui, sans-serif";
+Chart.defaults.devicePixelRatio = window.devicePixelRatio || 2;
+Chart.defaults.maintainAspectRatio = false;
+Chart.defaults.responsive = true;
+Chart.defaults.resizeDelay = 100;
+
   Chart.defaults.font.size = 11;
   Chart.defaults.color = C.muted;
   Chart.defaults.borderColor = C.rule;
