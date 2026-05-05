@@ -364,6 +364,7 @@ input, select { font-family: inherit; }
   border: 1px solid var(--rule);
   border-radius: 0;
   padding: 24px;
+  min-width: 0;
 }
 .card.dark {
   background: var(--ink);
@@ -440,7 +441,7 @@ input, select { font-family: inherit; }
 }
 
 /* === CHARTS === */
-.chart-wrap { position: relative; height: 280px; }
+.chart-wrap { position: relative; height: 280px; width: 100%; }
 .chart-wrap.tall { height: 360px; }
 .chart-wrap.short { height: 200px; }
 
@@ -658,7 +659,7 @@ tr:hover td { background: var(--bone-soft); }
 .health-pct { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 13px; text-align: right; }
 
 /* === PARETO === */
-.pareto-wrap { position: relative; height: 320px; }
+.pareto-wrap { position: relative; height: 320px; width: 100%; }
 
 /* === TREEMAP === */
 #treemap {
