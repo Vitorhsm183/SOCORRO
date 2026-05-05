@@ -552,12 +552,7 @@ tr:hover td { background: var(--bone-soft); }
 .badge.low { background: rgba(46,125,91,0.12); color: var(--moss); }
 
 /* === MAP === */
-#map {
-  height: 540px;
-  width: 100%;
-  border: 1px solid var(--rule);
-  background: #C8D5C7;
-}
+/* removed — see .map-geo-grid #map below */
 .map-controls {
   display: flex;
   gap: 8px;
@@ -1298,36 +1293,121 @@ tr:hover td { background: var(--bone-soft); }
 .health-row-score.crit { color: var(--rust); }
 
 
-/* === HEATMAP === */
+/* === HEATMAP TEMPORAL === */
+.heatmap-container {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  width: 100%;
+}
+.heatmap-grid-wrap {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
 .heat-grid {
   display: grid;
-  grid-template-columns: 50px repeat(24, 1fr);
-  gap: 2px;
+  grid-template-columns: 56px repeat(24, minmax(28px, 1fr));
+  gap: 3px;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 10px;
+  min-width: 720px;
 }
 .heat-cell {
-  aspect-ratio: 1;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  font-weight: 500;
-  border-radius: 2px;
-  transition: transform .15s;
+  font-weight: 600;
+  border-radius: 3px;
+  transition: transform .15s, box-shadow .15s;
+  cursor: default;
 }
 .heat-cell:hover {
-  transform: scale(1.15);
-  z-index: 2;
+  transform: scale(1.18);
+  z-index: 5;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18);
 }
 .heat-label-h, .heat-label-d {
   background: transparent !important;
   color: var(--muted) !important;
   font-weight: 600;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+  height: 28px;
 }
-.heat-label-d { text-align: right; padding-right: 6px; justify-content: flex-end; aspect-ratio: auto; }
+.heat-label-h {
+  border-bottom: 1px solid var(--rule-soft);
+}
+.heat-label-d {
+  text-align: right;
+  padding-right: 8px;
+  justify-content: flex-end;
+  font-weight: 700;
+  text-transform: uppercase;
+  height: 38px;
+}
+
+/* Legenda lateral */
+.heatmap-legend {
+  flex: 0 0 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0 0 8px;
+  border-left: 1px solid var(--rule-soft);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+}
+.heatmap-legend-title {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.heatmap-legend-bar {
+  height: 14px;
+  border-radius: 2px;
+  margin-bottom: 4px;
+}
+.heatmap-legend-row {
+  display: flex;
+  justify-content: space-between;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mobile: legenda vai abaixo */
+@media (max-width: 768px) {
+  .heatmap-container {
+    flex-direction: column;
+  }
+  .heatmap-legend {
+    flex: none;
+    flex-direction: row;
+    border-left: none;
+    border-top: 1px solid var(--rule-soft);
+    padding: 8px 0 0 0;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+  }
+  .heatmap-legend-bar {
+    flex: 1;
+    height: 12px;
+    margin: 0;
+  }
+  .heat-grid {
+    min-width: 600px;
+    grid-template-columns: 44px repeat(24, minmax(22px, 1fr));
+  }
+  .heat-cell {
+    height: 30px;
+    font-size: 9px;
+  }
+}
 
 
 /* === SKIP LINK === */
@@ -1662,14 +1742,16 @@ button:focus-visible {
   flex: 1;
 }
 
-/* === HEATMAP — não distorce === */
+/* === HEATMAP container — altura fixa visível === */
 #heatmap {
   width: 100%;
-  min-height: 280px;
-  overflow-x: auto;
+  min-height: 320px;
+  padding-top: 4px;
 }
 @media (max-width: 768px) {
-  #heatmap { min-height: 240px; }
+  #heatmap {
+    min-height: 280px;
+  }
 }
 
 /* === HERO STAT VALUES — alinhados === */
@@ -1705,6 +1787,111 @@ button:focus-visible {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
+
+/* === MAPA GEOESPACIAL — layout === */
+.map-geo-grid {
+  grid-template-columns: minmax(0, 2.4fr) minmax(280px, 1fr);
+  gap: 20px;
+}
+@media (max-width: 1024px) {
+  .map-geo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+#map {
+  height: 540px;
+  min-height: 480px;
+  width: 100%;
+  border: 1px solid var(--rule);
+  background: #C8D5C7;
+  border-radius: 0;
+}
+@media (max-width: 1024px) {
+  #map { height: 460px; }
+}
+@media (max-width: 768px) {
+  #map { height: 380px; min-height: 380px; }
+}
+
+/* Hotspot list — mesma altura do mapa */
+.map-geo-grid #hotspotList {
+  max-height: 540px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+@media (max-width: 1024px) {
+  .map-geo-grid #hotspotList { max-height: 380px; }
+}
+.map-geo-grid #hotspotList::-webkit-scrollbar { width: 6px; }
+.map-geo-grid #hotspotList::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 3px;
+}
+
+/* Tooltip rico Leaflet */
+.leaflet-popup-content-wrapper {
+  border-radius: 0;
+  font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 4px 14px rgba(0,0,0,.18);
+  padding: 0;
+}
+.leaflet-popup-content {
+  margin: 14px 18px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.leaflet-popup-content .pp-title {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.leaflet-popup-content .pp-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 3px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.leaflet-popup-content .pp-row span:first-child {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 9px;
+}
+.leaflet-popup-content .pp-row span:last-child {
+  color: var(--ink);
+  font-weight: 600;
+}
+.leaflet-popup-content .pp-grav {
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+.leaflet-popup-content .pp-grav.crit { background: var(--rust); color: #FFF; }
+.leaflet-popup-content .pp-grav.alta { background: var(--gold); color: var(--ink); }
+.leaflet-popup-content .pp-grav.media { background: #D4842F; color: #FFF; }
+.leaflet-popup-content .pp-grav.baixa { background: var(--moss); color: #FFF; }
+
+/* Cluster — paleta da marca */
+.marker-cluster-small { background-color: rgba(81,162,100,.65) !important; }
+.marker-cluster-small div { background-color: rgba(81,162,100,.85) !important; color: #FFF !important; }
+.marker-cluster-medium { background-color: rgba(212,140,0,.65) !important; }
+.marker-cluster-medium div { background-color: rgba(212,140,0,.85) !important; color: #FFF !important; }
+.marker-cluster-large { background-color: rgba(184,84,63,.65) !important; }
+.marker-cluster-large div { background-color: rgba(184,84,63,.85) !important; color: #FFF !important; }
+.marker-cluster div {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
 </style>
 </head>
 <body>
@@ -1939,16 +2126,16 @@ button:focus-visible {
           </select>
         </div>
 
-        <div class="grid cols-2" style="grid-template-columns: 2.5fr 1fr;">
+        <div class="grid map-geo-grid">
           <div>
             <div id="map" role="region" aria-label="Mapa interativo de ocorrências"></div>
           </div>
           <div class="card">
             <div class="card-head">
               <h3 class="card-title">Hotspots de Incidência</h3>
-              <div class="card-meta">por município</div>
+              <div class="card-meta" id="hotspotMeta">por município</div>
             </div>
-            <div id="hotspotList" style="max-height: 510px; overflow-y: auto;"></div>
+            <div id="hotspotList"></div>
           </div>
         </div>
 
@@ -3409,92 +3596,215 @@ function buildPopup(r) {
 
 function renderMapData() {
   if (!map) initMap();
+  if (!map) return;
   const records = getMapFiltered();
 
-  // clear previous
+  // limpar layers anteriores
   if (markersLayer) map.removeLayer(markersLayer);
   if (heatLayer) map.removeLayer(heatLayer);
   if (clusterLayer) map.removeLayer(clusterLayer);
 
+  if (!records.length) {
+    if (map.invalidateSize) map.invalidateSize();
+    return;
+  }
+
+  const validPoints = records.filter(r => r.lat && r.lng && !isNaN(r.lat) && !isNaN(r.lng));
+
+  // Cor por gravidade
+  const gravColor = {
+    'Crítica': C.rust,
+    'Alta': C.gold,
+    'Média': '#D4842F',
+    'Baixa': C.moss
+  };
+  const gravIntensity = {
+    'Crítica': 0.95, 'Alta': 0.75, 'Média': 0.5, 'Baixa': 0.35
+  };
+
+  // Popup HTML rico
+  const popupHTML = (r) => {
+    const grav = (r.gravidade || 'Média').toLowerCase().replace('í','i').replace('é','e');
+    const gravClass = grav.startsWith('crit') ? 'crit' : grav.startsWith('alta') ? 'alta' : grav.startsWith('med') ? 'media' : 'baixa';
+    const dataFmt = fmt.date(r.data) || '—';
+    return `
+      <div class="pp-grav ${gravClass}">${escapeHtml(r.gravidade || 'N/A')}</div>
+      <div class="pp-title">${escapeHtml(r.cidade || 'Local desconhecido')}</div>
+      <div style="color: var(--muted); font-size: 11px; margin-bottom: 8px;">${escapeHtml(r.local || '')}</div>
+      <div class="pp-row"><span>Data</span><span>${dataFmt} · ${escapeHtml(r.horario || '—')}</span></div>
+      <div class="pp-row"><span>Veículo</span><span>${escapeHtml(r.veiculo || '—')} · ${escapeHtml(r.chassi || '')}</span></div>
+      <div class="pp-row"><span>Defeito</span><span>${escapeHtml(r.defeito || r.grupo || '—')}</span></div>
+      <div class="pp-row"><span>Setor</span><span>${escapeHtml(r.setor || '—')}</span></div>
+      ${r.tempo_resposta_min ? `<div class="pp-row"><span>T. resposta</span><span>${r.tempo_resposta_min} min</span></div>` : ''}
+    `;
+  };
+
   if (currentMapLayer === 'heat') {
-    const points = records.map(r => [r.lat, r.lng, 0.5 + ({ 'Crítica': 0.5, 'Alta': 0.4, 'Média': 0.3, 'Baixa': 0.2 }[r.gravidade] || 0.3)]);
-    heatLayer = L.heatLayer(points, {
-      radius: 25, blur: 18, maxZoom: 11,
-      gradient: { 0.3: C.mossLight, 0.5: C.gold, 0.7: '#D4734F', 0.9: C.rust }
-    }).addTo(map);
+    const points = validPoints.map(r => [r.lat, r.lng, gravIntensity[r.gravidade] || 0.4]);
+    if (points.length) {
+      heatLayer = L.heatLayer(points, {
+        radius: 28, blur: 22, maxZoom: 12,
+        gradient: {
+          0.2: 'rgba(126,176,138,0.5)',
+          0.4: C.moss,
+          0.6: C.gold,
+          0.8: '#D4842F',
+          1.0: C.rust
+        }
+      }).addTo(map);
+    }
   } else if (currentMapLayer === 'cluster') {
-    clusterLayer = L.markerClusterGroup({
-      iconCreateFunction: function(cluster) {
-        const c = cluster.getChildCount();
-        const size = c < 10 ? 32 : c < 50 ? 40 : 50;
-        return L.divIcon({
-          html: `<div style="width:${size}px; height:${size}px; background:${C.forest}; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family: 'JetBrains Mono', monospace; font-weight:600; font-size:13px; border: 2px solid ${C.mossBright}; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">${c}</div>`,
-          className: '',
-          iconSize: [size, size]
-        });
-      }
-    });
-    records.forEach(r => {
-      const m = L.circleMarker([r.lat, r.lng], {
-        radius: 5,
-        fillColor: GRAV_COLORS[r.gravidade] || C.moss,
-        color: '#fff',
-        weight: 1,
-        fillOpacity: 0.8
-      }).bindPopup(buildPopup(r));
-      clusterLayer.addLayer(m);
-    });
-    map.addLayer(clusterLayer);
-  } else {
+    if (typeof L.markerClusterGroup === 'function') {
+      clusterLayer = L.markerClusterGroup({
+        showCoverageOnHover: false,
+        spiderfyOnMaxZoom: true,
+        maxClusterRadius: 50
+      });
+      validPoints.forEach(r => {
+        const m = L.circleMarker([r.lat, r.lng], {
+          radius: 7,
+          fillColor: gravColor[r.gravidade] || C.moss,
+          color: '#FFF',
+          weight: 2,
+          opacity: 1,
+          fillOpacity: 0.85
+        }).bindPopup(popupHTML(r));
+        clusterLayer.addLayer(m);
+      });
+      clusterLayer.addTo(map);
+    } else {
+      // fallback se MarkerCluster não carregou
+      currentMapLayer = 'markers';
+    }
+  }
+
+  if (currentMapLayer === 'markers') {
     markersLayer = L.layerGroup();
-    records.forEach(r => {
-      const m = L.circleMarker([r.lat, r.lng], {
-        radius: r.gravidade === 'Crítica' ? 8 : r.gravidade === 'Alta' ? 6 : 5,
-        fillColor: GRAV_COLORS[r.gravidade] || C.moss,
-        color: '#fff',
-        weight: 1.5,
+    validPoints.forEach(r => {
+      L.circleMarker([r.lat, r.lng], {
+        radius: 6,
+        fillColor: gravColor[r.gravidade] || C.moss,
+        color: '#FFF',
+        weight: 2,
+        opacity: 1,
         fillOpacity: 0.85
-      }).bindPopup(buildPopup(r));
-      markersLayer.addLayer(m);
+      }).bindPopup(popupHTML(r)).addTo(markersLayer);
     });
     markersLayer.addTo(map);
   }
+
+  // Auto-fit nos dados (zoom inteligente)
+  if (validPoints.length >= 2) {
+    const bounds = L.latLngBounds(validPoints.map(r => [r.lat, r.lng]));
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 11 });
+  } else if (validPoints.length === 1) {
+    map.setView([validPoints[0].lat, validPoints[0].lng], 11);
+  }
+
+  // Atualizar contador no card de hotspots
+  const meta = document.getElementById('hotspotMeta');
+  if (meta) {
+    const totalSemCoord = records.length - validPoints.length;
+    let txt = `${validPoints.length} pontos no mapa`;
+    if (totalSemCoord > 0) txt += ` · ${totalSemCoord} sem coordenadas`;
+    meta.textContent = txt;
+  }
+
+  if (map.invalidateSize) setTimeout(() => map.invalidateSize(), 50);
 }
 
 function renderHotspots() {
-  const byCidade = groupBy(DATA, 'cidade');
-  const sorted = Object.entries(byCidade).map(([k,v]) => ({
-    cidade: k, count: v.length, regiao: v[0].regiao, lat: v[0].lat, lng: v[0].lng
-  })).sort((a,b) => b.count - a.count).slice(0, 15);
+  const target = document.getElementById('hotspotList');
+  if (!target) return;
+  const validData = DATA.filter(r => r.cidade && r.cidade !== 'N/A');
+  const byCidade = groupBy(validData, 'cidade');
+  const sorted = Object.entries(byCidade).map(([k, v]) => {
+    const valida = v.filter(r => r.lat && r.lng);
+    const refRec = valida[0] || v[0];
+    const criticas = v.filter(r => r.gravidade === 'Crítica' || r.gravidade === 'Alta').length;
+    return {
+      cidade: k,
+      count: v.length,
+      criticas,
+      regiao: refRec.regiao || 'MG',
+      lat: refRec.lat,
+      lng: refRec.lng,
+      hasCoord: !!(refRec.lat && refRec.lng)
+    };
+  }).sort((a, b) => b.count - a.count).slice(0, 15);
 
-  document.getElementById('hotspotList').innerHTML = sorted.map((h, i) => `
-    <div class="hotspot" onclick="if(map){map.flyTo([${h.lat},${h.lng}], 11);}">
-      <span class="hotspot-rank">${String(i+1).padStart(2,'0')}</span>
-      <div>
-        <div class="hotspot-name">${h.cidade}</div>
-        <div class="hotspot-region">${escapeHtml(h.regiao)}</div>
+  if (!sorted.length) {
+    target.innerHTML = '<div style="padding:24px;text-align:center;color:var(--muted);font-size:12px;">Sem dados de cidade disponíveis</div>';
+    return;
+  }
+
+  target.innerHTML = sorted.map((h, i) => {
+    const pct = h.criticas > 0 ? Math.round((h.criticas / h.count) * 100) : 0;
+    const onclick = h.hasCoord ? `if(map){map.flyTo([${h.lat},${h.lng}], 11);}` : '';
+    return `
+    <div class="hotspot" ${h.hasCoord ? `onclick="${onclick}"` : ''} ${h.hasCoord ? 'style="cursor:pointer"' : 'style="opacity:0.7"'}>
+      <span class="hotspot-rank">${String(i + 1).padStart(2, '0')}</span>
+      <div style="flex: 1; min-width: 0;">
+        <div class="hotspot-name">${escapeHtml(h.cidade)}</div>
+        <div class="hotspot-region">${escapeHtml(h.regiao)} · ${h.count} ocorr.${pct > 0 ? ` · ${pct}% graves` : ''}</div>
       </div>
-      <div class="hotspot-count">${h.count}</div>
-    </div>
-  `).join('');
+      <span class="hotspot-count">${h.count}</span>
+    </div>`;
+  }).join('');
 }
 
 function renderRegiaoChart() {
   const _ctx = document.getElementById('chartRegiao');
   if (!_ctx) return;
-  const byRegiao = groupBy(DATA.filter(r => r.regiao && r.regiao !== 'N/A'), 'regiao');
-  const labels = Object.keys(byRegiao);
-  const data = labels.map(l => byRegiao[l].length);
+  // Fallback: se não tem coluna Região, agrupa por cidade (top 8)
+  const hasRegiao = DATA.some(r => r.regiao && r.regiao !== 'N/A');
+  let entries;
+  let cardMeta = 'MG';
+  if (hasRegiao) {
+    const grouped = groupBy(DATA.filter(r => r.regiao && r.regiao !== 'N/A'), 'regiao');
+    entries = Object.entries(grouped).map(([k, v]) => [k, v.length]);
+  } else {
+    const grouped = groupBy(DATA.filter(r => r.cidade && r.cidade !== 'N/A'), 'cidade');
+    entries = Object.entries(grouped)
+      .map(([k, v]) => [k, v.length])
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
+    cardMeta = 'top 8 cidades';
+  }
+  const labels = entries.map(e => e[0]);
+  const data = entries.map(e => e[1]);
+  // Atualizar meta do card se existir
+  const cardEl = _ctx.closest('.card');
+  if (cardEl) {
+    const metaEl = cardEl.querySelector('.card-meta');
+    if (metaEl) metaEl.textContent = cardMeta;
+  }
+
+  if (!labels.length) {
+    if (charts.regiao) charts.regiao.destroy();
+    _ctx.parentElement.innerHTML = '<div class="chart-empty">Sem dados disponíveis</div>';
+    return;
+  }
+
+  const palette = [C.forest, C.moss, C.mossBright, C.gold, '#D4842F', C.rust, C.mossLight, C.muted];
+  const colors = labels.map((_, i) => palette[i % palette.length]);
+
   if (charts.regiao) charts.regiao.destroy();
-  charts.regiao = new Chart(document.getElementById('chartRegiao'), {
+  charts.regiao = new Chart(_ctx, {
     type: 'bar',
-    data: { labels, datasets: [{ data, backgroundColor: [C.forest, C.moss, C.gold, C.rust], borderRadius: 0, barPercentage: 0.6 }] },
+    data: {
+      labels,
+      datasets: [{
+        data, backgroundColor: colors, borderRadius: 0, barPercentage: 0.7
+      }]
+    },
     options: {
       indexAxis: 'y',
       responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { color: C.rule }, border: { display: false }, ticks: { padding: 6 } },
-        y: { grid: { display: false }, border: { display: false } }
+        x: { grid: { color: C.rule }, ticks: { font: { size: 10 } } },
+        y: { grid: { display: false }, ticks: { font: { size: 10 } } }
       }
     }
   });
@@ -3516,25 +3826,56 @@ function renderClimaChart() {
 function renderRespRegiaoChart() {
   const _ctx = document.getElementById('chartRespRegiao');
   if (!_ctx) return;
-  const byRegiao = groupBy(DATA.filter(r => r.regiao && r.regiao !== 'N/A'), 'regiao');
-  const labels = Object.keys(byRegiao);
-  const data = labels.map(l => +avg(byRegiao[l], 'tempo_resposta_min').toFixed(1));
+  const hasRegiao = DATA.some(r => r.regiao && r.regiao !== 'N/A');
+  let entries;
+  let cardMeta = 'minutos médios por região';
+  if (hasRegiao) {
+    const grouped = groupBy(DATA.filter(r => r.regiao && r.regiao !== 'N/A'), 'regiao');
+    entries = Object.entries(grouped).map(([k, v]) => [k, +avg(v, 'tempo_resposta_min').toFixed(1)]);
+  } else {
+    const grouped = groupBy(DATA.filter(r => r.cidade && r.cidade !== 'N/A'), 'cidade');
+    entries = Object.entries(grouped)
+      .filter(([k, v]) => v.length >= 2) // só cidades com >= 2 ocorrências
+      .map(([k, v]) => [k, +avg(v, 'tempo_resposta_min').toFixed(1)])
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8);
+    cardMeta = 'minutos médios por cidade (top 8)';
+  }
+  const labels = entries.map(e => e[0]);
+  const data = entries.map(e => e[1]);
+  const cardEl = _ctx.closest('.card');
+  if (cardEl) {
+    const metaEl = cardEl.querySelector('.card-meta');
+    if (metaEl) metaEl.textContent = cardMeta;
+  }
+
+  if (!labels.length) {
+    if (charts.respRegiao) charts.respRegiao.destroy();
+    _ctx.parentElement.innerHTML = '<div class="chart-empty">Sem dados disponíveis</div>';
+    return;
+  }
+
+  const colors = data.map(v => v > 60 ? C.rust : v > 45 ? C.gold : C.moss);
+
   if (charts.respRegiao) charts.respRegiao.destroy();
-  charts.respRegiao = new Chart(document.getElementById('chartRespRegiao'), {
+  charts.respRegiao = new Chart(_ctx, {
     type: 'bar',
     data: {
       labels,
       datasets: [{
-        data,
-        backgroundColor: data.map(v => v > 60 ? C.rust : v > 45 ? C.gold : C.moss),
-        borderRadius: 0, barPercentage: 0.6
+        data, backgroundColor: colors, borderRadius: 0, barPercentage: 0.7
       }]
     },
     options: {
+      indexAxis: 'y',
       responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (ctx) => `${ctx.parsed.x} min` } }
+      },
       scales: {
-        y: { beginAtZero: true, grid: { color: C.rule }, border: { display: false }, ticks: { padding: 6, callback: v => v + ' min' } },
-        x: { grid: { display: false }, border: { display: false } }
+        x: { grid: { color: C.rule }, ticks: { font: { size: 10 }, callback: v => v + 'min' } },
+        y: { grid: { display: false }, ticks: { font: { size: 10 } } }
       }
     }
   });
@@ -3554,7 +3895,6 @@ function renderHeatmap() {
   DATA.forEach(r => {
     if (!r.horario) return;
     let dia = normalizeDiaSemana(r.dia_semana);
-    // Se ainda não bate, recalcula a partir da data
     if (!counts[dia] && r.data) {
       const d = parseLocalDate(r.data);
       if (d) dia = dias[d.getDay()];
@@ -3567,24 +3907,26 @@ function renderHeatmap() {
 
   const allVals = dias.flatMap(d => counts[d]);
   const max = Math.max(...allVals, 1);
+  const totalOcorr = allVals.reduce((s, v) => s + v, 0);
 
+  // Escala de cor: bone → moss → forest com paleta da marca
   const colorScale = (v) => {
-    if (v === 0) return '#ECE5D8';
+    if (v === 0) return '#F0EADC';
     const t = v / max;
-    // gradient bone → moss → forest
-    if (t < 0.33) {
-      const r = Math.round(236 - (236-180) * (t/0.33));
-      const g = Math.round(229 - (229-200) * (t/0.33));
-      const b = Math.round(216 - (216-160) * (t/0.33));
+    if (t < 0.34) {
+      const tt = t / 0.34;
+      const r = Math.round(240 - (240-126) * tt);
+      const g = Math.round(234 - (234-176) * tt);
+      const b = Math.round(220 - (220-138) * tt);
       return `rgb(${r},${g},${b})`;
-    } else if (t < 0.66) {
-      const tt = (t - 0.33) / 0.33;
-      const r = Math.round(180 - (180-46) * tt);
-      const g = Math.round(200 - (200-125) * tt);
-      const b = Math.round(160 - (160-91) * tt);
+    } else if (t < 0.67) {
+      const tt = (t - 0.34) / 0.33;
+      const r = Math.round(126 - (126-46) * tt);
+      const g = Math.round(176 - (176-125) * tt);
+      const b = Math.round(138 - (138-91) * tt);
       return `rgb(${r},${g},${b})`;
     } else {
-      const tt = (t - 0.66) / 0.34;
+      const tt = (t - 0.67) / 0.33;
       const r = Math.round(46 - (46-15) * tt);
       const g = Math.round(125 - (125-36) * tt);
       const b = Math.round(91 - (91-25) * tt);
@@ -3592,24 +3934,41 @@ function renderHeatmap() {
     }
   };
 
-  // Grid: 1 col rótulo dia + 24 cols horas
-  let grid = '<div class="heat-grid">';
+  // Construir HTML
+  let html = '<div class="heatmap-container">';
+  html += '<div class="heatmap-grid-wrap"><div class="heat-grid">';
   // Header de horas
-  grid += '<div class="heat-cell heat-label-h"></div>';
+  html += '<div class="heat-cell heat-label-h"></div>';
   for (let h = 0; h < 24; h++) {
-    grid += `<div class="heat-cell heat-label-h">${String(h).padStart(2,'0')}</div>`;
+    html += `<div class="heat-cell heat-label-h">${String(h).padStart(2,'0')}</div>`;
   }
-  // Linhas
+  // Linhas dia × hora
   dias.forEach(dia => {
-    grid += `<div class="heat-cell heat-label-d">${dia.slice(0,3)}</div>`;
+    html += `<div class="heat-cell heat-label-d">${dia.slice(0,3)}</div>`;
     counts[dia].forEach((v, h) => {
       const bg = colorScale(v);
-      const fg = v / max > 0.55 ? '#FFF' : '#1A1F1B';
-      grid += `<div class="heat-cell" style="background:${bg};color:${fg};" title="${dia} ${String(h).padStart(2,'0')}h: ${v} ocorrências">${v || ''}</div>`;
+      const fg = (v / max) > 0.5 ? '#FFF' : 'var(--ink)';
+      const titleStr = `${dia} ${String(h).padStart(2,'0')}h: ${v} ocorrência${v === 1 ? '' : 's'}`;
+      html += `<div class="heat-cell" style="background:${bg};color:${fg};" title="${titleStr}" aria-label="${titleStr}">${v || ''}</div>`;
     });
   });
-  grid += '</div>';
-  target.innerHTML = grid;
+  html += '</div></div>';
+
+  // Legenda lateral com escala de cores
+  html += '<div class="heatmap-legend">';
+  html += '<div class="heatmap-legend-title">Ocorrências</div>';
+  html += '<div class="heatmap-legend-bar" style="background: linear-gradient(to right, ' +
+          colorScale(0) + ', ' + colorScale(max*0.25) + ', ' + colorScale(max*0.5) + ', ' +
+          colorScale(max*0.75) + ', ' + colorScale(max) + ');"></div>';
+  html += `<div class="heatmap-legend-row"><span>0</span><span>${max}</span></div>`;
+  html += `<div style="margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--rule-soft);">`;
+  html += `<div style="font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px;">Total</div>`;
+  html += `<div style="font-size: 18px; font-weight: 700; color: var(--ink); font-family: 'JetBrains Mono', monospace;">${totalOcorr}</div>`;
+  html += `</div>`;
+  html += '</div>';
+  html += '</div>';
+
+  target.innerHTML = html;
 }
 
 function renderPareto() {
