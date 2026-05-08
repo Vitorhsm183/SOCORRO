@@ -1880,6 +1880,250 @@ button:focus-visible {
 .leaflet-popup-content .pp-grav.media { background: #D4842F; color: #FFF; }
 .leaflet-popup-content .pp-grav.baixa { background: var(--moss); color: #FFF; }
 
+/* === LANÇAMENTO DE SOCORRO === */
+.nav-item.nav-launch {
+  background: linear-gradient(90deg, rgba(201,219,3,0.12), rgba(201,219,3,0.02));
+  color: var(--brand-yellow);
+  font-weight: 500;
+  border-left-color: var(--brand-yellow);
+}
+.nav-item.nav-launch:hover {
+  background: linear-gradient(90deg, rgba(201,219,3,0.22), rgba(201,219,3,0.06));
+  color: #fff;
+}
+.nav-item.nav-launch.active {
+  background: rgba(201,219,3,0.18);
+  color: var(--brand-yellow);
+  border-left-color: var(--brand-yellow);
+}
+.nav-item.nav-launch .num {
+  color: var(--brand-yellow);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.launch-wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.launch-intro {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.launch-intro h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.launch-intro h2 em { color: var(--moss); font-style: italic; }
+.launch-intro p {
+  font-size: 12px;
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.02em;
+}
+.launch-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 6px 12px;
+  border: 1px solid var(--rule);
+  background: var(--bone);
+}
+.launch-status.ok { color: var(--moss); border-color: var(--moss); }
+.launch-status.err { color: var(--rust); border-color: var(--rust); }
+
+.form-section {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  margin-bottom: 20px;
+}
+.form-section-head {
+  padding: 16px 24px 14px;
+  border-bottom: 1px solid var(--rule-soft);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.form-section-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink);
+}
+.form-section-meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.form-section-body {
+  padding: 20px 24px 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 20px;
+}
+.form-section-body.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.form-section-body.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field.span-2 { grid-column: span 2; }
+.field.span-3 { grid-column: span 3; }
+.field.span-full { grid-column: 1 / -1; }
+
+.field-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.field-label .req { color: var(--rust); margin-left: 2px; }
+.field-input,
+.field-select,
+.field-textarea {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--bone);
+  border: 1px solid var(--rule);
+  padding: 10px 12px;
+  width: 100%;
+  transition: border-color 0.15s, background 0.15s;
+}
+.field-input:focus,
+.field-select:focus,
+.field-textarea:focus {
+  outline: none;
+  border-color: var(--moss);
+  background: #fff;
+}
+.field-textarea {
+  min-height: 70px;
+  resize: vertical;
+  font-family: inherit;
+}
+.field-help {
+  font-size: 10px;
+  color: var(--muted);
+  font-style: italic;
+}
+.field-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 10px 12px;
+  border: 1px solid var(--rule);
+  background: var(--bone);
+  font-size: 13px;
+  user-select: none;
+}
+.field-checkbox input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--moss); }
+.field-checkbox:hover { border-color: var(--moss); }
+
+.form-actions {
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  bottom: 16px;
+  z-index: 5;
+  box-shadow: 0 -4px 14px rgba(0,0,0,0.04);
+  flex-wrap: wrap;
+}
+.form-actions-info {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.form-actions-buttons { display: flex; gap: 10px; }
+.btn-primary,
+.btn-secondary,
+.btn-ghost {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 12px 22px;
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 600;
+  min-height: 44px;
+}
+.btn-primary {
+  background: var(--ink);
+  color: var(--brand-yellow);
+  border-color: var(--ink);
+}
+.btn-primary:hover { background: var(--moss); border-color: var(--moss); color: #fff; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; background: var(--muted); border-color: var(--muted); color: rgba(255,255,255,0.7); }
+.btn-secondary {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--rule);
+}
+.btn-secondary:hover { border-color: var(--ink); }
+.btn-ghost {
+  background: transparent;
+  color: var(--rust);
+  border-color: transparent;
+  text-decoration: underline;
+}
+.btn-ghost:hover { color: var(--rust); background: rgba(212,46,18,0.06); }
+
+.config-warning {
+  background: rgba(201,219,3,0.12);
+  border: 1px solid var(--brand-yellow);
+  border-left: 4px solid var(--brand-yellow);
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.config-warning strong { color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; }
+.config-warning code {
+  background: var(--ink);
+  color: var(--brand-yellow);
+  padding: 2px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  word-break: break-all;
+}
+
+@media (max-width: 768px) {
+  .form-section-body,
+  .form-section-body.cols-2,
+  .form-section-body.cols-4 {
+    grid-template-columns: 1fr;
+  }
+  .field.span-2,
+  .field.span-3,
+  .field.span-full { grid-column: span 1; }
+  .form-actions { flex-direction: column; align-items: stretch; }
+  .form-actions-buttons { flex-direction: column; }
+}
+
 /* Cluster — paleta da marca */
 .marker-cluster-small { background-color: rgba(81,162,100,.65) !important; }
 .marker-cluster-small div { background-color: rgba(81,162,100,.85) !important; color: #FFF !important; }
@@ -1946,7 +2190,12 @@ button:focus-visible {
       <div class="brand-tag">Operações · Socorro de Rua</div>
     </div>
 
-    <div class="nav-label">Análises</div>
+    <div class="nav-label">Ações</div>
+    <ul class="nav">
+      <li class="nav-item nav-launch" data-tab="launch"><span class="num">＋</span><span>Lançar Socorro</span></li>
+    </ul>
+
+    <div class="nav-label" style="margin-top: 28px;">Análises</div>
     <ul class="nav">
       <li class="nav-item active" data-tab="overview"><span class="num">01</span><span>Visão Geral</span></li>
       <li class="nav-item" data-tab="map"><span class="num">02</span><span>Mapa Geoespacial</span></li>
@@ -1995,7 +2244,7 @@ button:focus-visible {
       </div>
     </header>
 
-    <main class="content" id="main-content" role="main" tabindex="-1">
+    <div class="content" id="main-content" role="main" tabindex="-1">
 
       <!-- ===== TAB 1: OVERVIEW ===== -->
       <section class="tab active" id="tab-overview">
@@ -2486,6 +2735,301 @@ button:focus-visible {
 
       </section>
 
+      <!-- ===== TAB: LAUNCH (Lançamento de Socorro) ===== -->
+      <section class="tab" id="tab-launch">
+        <div class="launch-wrap">
+
+          <div class="launch-intro">
+            <div>
+              <h2>Lançar <em>Socorro</em></h2>
+              <p>Preencha os dados do atendimento — após enviar, o registro vai direto para a planilha.</p>
+            </div>
+            <div class="launch-status" id="launchStatus">aguardando envio</div>
+          </div>
+
+          <div class="config-warning" id="launchConfigWarning" style="display:none;">
+            <strong>⚠ CONFIGURAÇÃO PENDENTE</strong><br>
+            Para que o lançamento envie os dados para a planilha, é preciso publicar um Apps Script Web App e colar a URL na constante <code>SHEETS_POST_URL</code>, no início do bloco &lt;script&gt;. Veja as instruções no comentário acima dessa constante no código.
+          </div>
+
+          <form id="launchForm" autocomplete="off" novalidate>
+
+            <!-- Quando -->
+            <div class="form-section">
+              <div class="form-section-head">
+                <div class="form-section-title">Quando</div>
+                <div class="form-section-meta">data e hora do socorro</div>
+              </div>
+              <div class="form-section-body cols-4">
+                <div class="field">
+                  <label class="field-label" for="lf_data">Data <span class="req">*</span></label>
+                  <input class="field-input" type="date" id="lf_data" name="data" required>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_horario">Horário <span class="req">*</span></label>
+                  <input class="field-input" type="time" id="lf_horario" name="horario" required>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_periodo">Período</label>
+                  <select class="field-select" id="lf_periodo" name="periodo">
+                    <option value="">— auto pela hora —</option>
+                    <option>Madrugada</option>
+                    <option>Manhã</option>
+                    <option>Tarde</option>
+                    <option>Noite</option>
+                  </select>
+                  <div class="field-help">deixe vazio para preencher automaticamente</div>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_feriado">Feriado?</label>
+                  <label class="field-checkbox">
+                    <input type="checkbox" id="lf_feriado" name="feriado">
+                    <span>É dia de feriado</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Veículo -->
+            <div class="form-section">
+              <div class="form-section-head">
+                <div class="form-section-title">Veículo</div>
+                <div class="form-section-meta">identificação da frota</div>
+              </div>
+              <div class="form-section-body cols-3">
+                <div class="field">
+                  <label class="field-label" for="lf_veiculo">Nº do Veículo <span class="req">*</span></label>
+                  <input class="field-input" type="number" id="lf_veiculo" name="veiculo" min="1" required placeholder="ex: 2104">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_chassi">Chassi <span class="req">*</span></label>
+                  <input class="field-input" type="text" id="lf_chassi" name="chassi" list="lf_chassi_list" required placeholder="ex: OF-1721">
+                  <datalist id="lf_chassi_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_idade_veiculo">Idade do Veículo (anos)</label>
+                  <input class="field-input" type="number" id="lf_idade_veiculo" name="idade_veiculo" min="0" max="40" step="1" placeholder="ex: 5">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_linha">Linha</label>
+                  <input class="field-input" type="number" id="lf_linha" name="linha" list="lf_linha_list" placeholder="ex: 503">
+                  <datalist id="lf_linha_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_motorista">Motorista (matrícula)</label>
+                  <input class="field-input" type="text" id="lf_motorista" name="motorista" placeholder="número de matrícula">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_passageiros">Passageiros a bordo</label>
+                  <input class="field-input" type="number" id="lf_passageiros" name="passageiros" min="0" max="200" step="1" placeholder="ex: 32">
+                </div>
+              </div>
+            </div>
+
+            <!-- Local -->
+            <div class="form-section">
+              <div class="form-section-head">
+                <div class="form-section-title">Local</div>
+                <div class="form-section-meta">onde aconteceu</div>
+              </div>
+              <div class="form-section-body cols-3">
+                <div class="field">
+                  <label class="field-label" for="lf_cidade">Cidade <span class="req">*</span></label>
+                  <input class="field-input" type="text" id="lf_cidade" name="cidade" list="lf_cidade_list" required placeholder="ex: Belo Horizonte">
+                  <datalist id="lf_cidade_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_regiao">Região</label>
+                  <input class="field-input" type="text" id="lf_regiao" name="regiao" list="lf_regiao_list" placeholder="ex: Centro-Sul">
+                  <datalist id="lf_regiao_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_clima">Clima</label>
+                  <select class="field-select" id="lf_clima" name="condicao_climatica">
+                    <option value="">—</option>
+                    <option>Sol</option>
+                    <option>Nublado</option>
+                    <option>Chuva fraca</option>
+                    <option>Chuva forte</option>
+                    <option>Neblina</option>
+                    <option>Tempestade</option>
+                  </select>
+                </div>
+                <div class="field span-3">
+                  <label class="field-label" for="lf_local">Endereço / ponto de referência</label>
+                  <input class="field-input" type="text" id="lf_local" name="local" placeholder="Av. Brasil, 1500, próximo ao posto X">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_lat">Latitude</label>
+                  <input class="field-input" type="number" id="lf_lat" name="lat" step="0.000001" placeholder="-19.9166">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_lng">Longitude</label>
+                  <input class="field-input" type="number" id="lf_lng" name="lng" step="0.000001" placeholder="-43.9344">
+                </div>
+                <div class="field" style="justify-content:flex-end;">
+                  <button type="button" class="btn-secondary" id="btnGeo" style="padding:10px 12px;font-size:10px;">📍 Usar minha localização</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ocorrência -->
+            <div class="form-section">
+              <div class="form-section-head">
+                <div class="form-section-title">Ocorrência</div>
+                <div class="form-section-meta">o que aconteceu</div>
+              </div>
+              <div class="form-section-body cols-3">
+                <div class="field">
+                  <label class="field-label" for="lf_setor">Setor <span class="req">*</span></label>
+                  <select class="field-select" id="lf_setor" name="setor" required>
+                    <option value="">— selecione —</option>
+                    <option>MECÂNICA</option>
+                    <option>ELÉTRICA</option>
+                    <option>BORRACHARIA</option>
+                    <option>LANTERNAGEM</option>
+                    <option>ABASTECIMENTO</option>
+                    <option>EM AVALIAÇÃO</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_grupo">Grupo</label>
+                  <input class="field-input" type="text" id="lf_grupo" name="grupo" list="lf_grupo_list" placeholder="ex: MOTOR">
+                  <datalist id="lf_grupo_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_gravidade">Gravidade <span class="req">*</span></label>
+                  <select class="field-select" id="lf_gravidade" name="gravidade" required>
+                    <option value="">— selecione —</option>
+                    <option>Crítica</option>
+                    <option>Alta</option>
+                    <option>Média</option>
+                    <option>Baixa</option>
+                  </select>
+                </div>
+                <div class="field span-2">
+                  <label class="field-label" for="lf_defeito">Defeito (descrição) <span class="req">*</span></label>
+                  <input class="field-input" type="text" id="lf_defeito" name="defeito" required placeholder="ex: Vazamento de óleo no cárter">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_tipo_falha">Tipo de Falha</label>
+                  <select class="field-select" id="lf_tipo_falha" name="tipo_falha">
+                    <option value="">—</option>
+                    <option>Mecânica</option>
+                    <option>Elétrica</option>
+                    <option>Hidráulica</option>
+                    <option>Pneumática</option>
+                    <option>Estrutural</option>
+                    <option>Operacional</option>
+                    <option>Outros</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Atendimento -->
+            <div class="form-section">
+              <div class="form-section-head">
+                <div class="form-section-title">Atendimento</div>
+                <div class="form-section-meta">tempos e custos</div>
+              </div>
+              <div class="form-section-body cols-3">
+                <div class="field">
+                  <label class="field-label" for="lf_responsavel">Socorrista (responsável)</label>
+                  <input class="field-input" type="text" id="lf_responsavel" name="responsavel" list="lf_responsavel_list" placeholder="nome do socorrista">
+                  <datalist id="lf_responsavel_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_tempo_resposta">Tempo de Resposta (min)</label>
+                  <input class="field-input" type="number" id="lf_tempo_resposta" name="tempo_resposta_min" min="0" step="1" placeholder="ex: 28">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_tempo_reparo">Tempo de Reparo (h)</label>
+                  <input class="field-input" type="number" id="lf_tempo_reparo" name="tempo_reparo_h" min="0" step="0.1" placeholder="ex: 1.5">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_custo">Custo Estimado (R$)</label>
+                  <input class="field-input" type="number" id="lf_custo" name="custo_estimado" min="0" step="0.01" placeholder="ex: 850">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_dias_manut">Dias desde Manutenção</label>
+                  <input class="field-input" type="number" id="lf_dias_manut" name="dias_desde_manutencao" min="0" step="1" placeholder="ex: 22">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_km_revisao">KM desde Revisão</label>
+                  <input class="field-input" type="number" id="lf_km_revisao" name="km_desde_revisao" min="0" step="1" placeholder="ex: 5400">
+                </div>
+              </div>
+            </div>
+
+            <!-- Peça (opcional) -->
+            <div class="form-section">
+              <div class="form-section-head">
+                <div class="form-section-title">Peça envolvida <span style="font-weight:300;color:var(--muted);font-size:12px;font-family:'DM Sans';"> · opcional</span></div>
+                <div class="form-section-meta">deixe em branco se não houve troca</div>
+              </div>
+              <div class="form-section-body cols-3">
+                <div class="field">
+                  <label class="field-label" for="lf_peca_codigo">Código da Peça</label>
+                  <input class="field-input" type="text" id="lf_peca_codigo" name="peca_codigo" placeholder="ex: SKU-4421">
+                </div>
+                <div class="field span-2">
+                  <label class="field-label" for="lf_peca_nome">Nome da Peça</label>
+                  <input class="field-input" type="text" id="lf_peca_nome" name="peca_nome" list="lf_peca_list" placeholder="ex: Bomba d'água">
+                  <datalist id="lf_peca_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_sistema">Sistema</label>
+                  <input class="field-input" type="text" id="lf_sistema" name="sistema" list="lf_sistema_list" placeholder="ex: Arrefecimento">
+                  <datalist id="lf_sistema_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_fornecedor">Fornecedor</label>
+                  <input class="field-input" type="text" id="lf_fornecedor" name="fornecedor" list="lf_fornecedor_list" placeholder="nome do fornecedor">
+                  <datalist id="lf_fornecedor_list"></datalist>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_valor_peca">Valor da Peça (R$)</label>
+                  <input class="field-input" type="number" id="lf_valor_peca" name="valor_peca" min="0" step="0.01" placeholder="ex: 320">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_km_peca">KM da Peça</label>
+                  <input class="field-input" type="number" id="lf_km_peca" name="km_peca" min="0" step="1" placeholder="km rodados pela peça">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_em_garantia">Em Garantia?</label>
+                  <label class="field-checkbox">
+                    <input type="checkbox" id="lf_em_garantia" name="em_garantia">
+                    <span>Sim, está em garantia</span>
+                  </label>
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_prazo_garantia">Prazo da Garantia (meses)</label>
+                  <input class="field-input" type="number" id="lf_prazo_garantia" name="prazo_garantia_meses" min="0" step="1" placeholder="ex: 12">
+                </div>
+                <div class="field">
+                  <label class="field-label" for="lf_custo_operador">Custo Operador (R$)</label>
+                  <input class="field-input" type="number" id="lf_custo_operador" name="custo_peca_operador" min="0" step="0.01" placeholder="custo de mão de obra">
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-actions">
+              <div class="form-actions-info" id="launchInfo">
+                Os campos marcados com <span style="color:var(--rust);">*</span> são obrigatórios.
+              </div>
+              <div class="form-actions-buttons">
+                <button type="button" class="btn-ghost" id="btnLaunchClear">Limpar formulário</button>
+                <button type="button" class="btn-secondary" id="btnLaunchFillNow">Agora</button>
+                <button type="submit" class="btn-primary" id="btnLaunchSubmit">Enviar Socorro →</button>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </section>
+
       <!-- ===== TAB 5: RECORDS ===== -->
       <section class="tab" id="tab-records">
 
@@ -2570,7 +3114,48 @@ button:focus-visible {
 // ============================================================
 // FONTE DE DADOS — Google Sheets (CSV publicado)
 // ============================================================
-const SHEETS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSUd7LIOy6L_vn1czWU7W-U0aAUHMpCalRLnX101PMWneE-scVuZKqlxTYJ33T94wX8w1fHkh7bOlX4/pub?gid=0&single=true&output=csv';
+const SHEETS_CSV_URL = 'https://script.google.com/macros/s/AKfycbx6ChKT06rlNP19iYvFusPRSV8943X-dGRC2eERX3dwvWkYnmkfs7i2eoFKPCF3uyzCng/exec';
+
+// ============================================================
+// ENVIO DE LANÇAMENTOS — Google Apps Script Web App
+// ============================================================
+// Para que o formulário "Lançar Socorro" envie os dados para a planilha,
+// é preciso criar um Apps Script Web App e colar a URL abaixo. Passos:
+//
+//   1. Abra a planilha no Google Sheets.
+//   2. Menu Extensões → Apps Script.
+//   3. Cole o código abaixo no editor (substituindo o que estiver lá):
+//
+//      function doPost(e) {
+//        try {
+//          const ss = SpreadsheetApp.getActiveSpreadsheet();
+//          const sheet = ss.getSheets()[0];   // primeira aba
+//          const data = JSON.parse(e.postData.contents);
+//          const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+//          const row = headers.map(h => data[h] !== undefined && data[h] !== null ? data[h] : '');
+//          sheet.appendRow(row);
+//          return ContentService
+//            .createTextOutput(JSON.stringify({ success: true, row: sheet.getLastRow() }))
+//            .setMimeType(ContentService.MimeType.JSON);
+//        } catch (err) {
+//          return ContentService
+//            .createTextOutput(JSON.stringify({ success: false, error: err.toString() }))
+//            .setMimeType(ContentService.MimeType.JSON);
+//        }
+//      }
+//      function doGet() {
+//        return ContentService.createTextOutput('OK');
+//      }
+//
+//   4. Salve. Menu Implantar → Nova implantação.
+//   5. Tipo: Aplicativo da Web. Acesso: Qualquer pessoa.
+//   6. Implante e copie a URL gerada (algo como
+//      https://script.google.com/macros/s/AKfycb.../exec).
+//   7. Cole a URL na constante SHEETS_POST_URL abaixo.
+//
+// Enquanto SHEETS_POST_URL estiver vazia, a aba mostra um aviso.
+const SHEETS_POST_URL = ''; // ⬅ COLE AQUI A URL DO SEU APPS SCRIPT WEB APP
+
 const REFRESH_INTERVAL_MS = 60000; // 60 segundos — ajuste à vontade
 const MAX_REFRESH_RETRIES = 3;
 const FROTA_TOTAL = 100; // Total de veículos da frota Pássaro Verde
@@ -4816,6 +5401,289 @@ function exportCSV() {
 }
 
 // ============================================
+// LANÇAMENTO DE SOCORRO — formulário e envio
+// ============================================
+
+// Mapa interno-do-form → cabeçalho da planilha (precisa bater com o COL_MAP)
+// Cada entrada: [campoFormInterno, cabeçalhoPlanilha, transformOpcional]
+const LAUNCH_FIELD_MAP = [
+  ['data',                    'Data'],
+  ['horario',                 'Horário'],
+  ['veiculo',                 'Veículo'],
+  ['chassi',                  'Chassi'],
+  ['idade_veiculo',           'Idade Veíc. (anos)'],
+  ['linha',                   'Linha'],
+  ['motorista',               'Motorista'],
+  ['passageiros',             'Passageiros'],
+  ['cidade',                  'Cidade'],
+  ['regiao',                  'Região'],
+  ['local',                   'Local'],
+  ['lat',                     'Latitude'],
+  ['lng',                     'Longitude'],
+  ['setor',                   'Setor'],
+  ['grupo',                   'Grupo'],
+  ['gravidade',               'Gravidade'],
+  ['defeito',                 'Defeito'],
+  ['tipo_falha',              'Tipo Falha'],
+  ['responsavel',             'Socorrista'],
+  ['tempo_resposta_min',      'T. Resposta (min)'],
+  ['tempo_reparo_h',          'T. Reparo (h)'],
+  ['custo_estimado',          'Custo Estimado (R$)'],
+  ['dias_desde_manutencao',   'Dias desde Manut.'],
+  ['km_desde_revisao',        'KM desde Revisão'],
+  ['condicao_climatica',      'Clima'],
+  ['feriado',                 'Feriado'],
+  ['periodo',                 'Período'],
+  ['dia_semana',              'Dia da Semana'],
+  ['mes_nome',                'Mês'],
+  ['ano',                     'Ano'],
+  ['peca_codigo',             'Cód. Peça'],
+  ['peca_nome',               'Peça'],
+  ['sistema',                 'Sistema'],
+  ['fornecedor',              'Fornecedor'],
+  ['valor_peca',              'Valor Peça (R$)'],
+  ['km_peca',                 'KM Peça'],
+  ['em_garantia',             'Em Garantia'],
+  ['prazo_garantia_meses',    'Garantia (meses)'],
+  ['custo_peca_operador',     'Custo Operador (R$)'],
+  ['is_real',                 'Origem'],
+  ['id',                      'ID'],
+];
+
+function setLaunchStatus(text, cls) {
+  const el = document.getElementById('launchStatus');
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'launch-status' + (cls ? ' ' + cls : '');
+}
+
+// Pré-popula datalists com valores únicos vindos dos dados já carregados
+function populateLaunchDatalists() {
+  const fillList = (listId, values) => {
+    const el = document.getElementById(listId);
+    if (!el) return;
+    el.innerHTML = values
+      .filter(v => v && v !== 'N/A')
+      .sort()
+      .map(v => `<option value="${escapeHtml(String(v))}"></option>`)
+      .join('');
+  };
+  const uniq = (key) => [...new Set(ALL.map(r => r[key]).filter(Boolean))];
+  fillList('lf_chassi_list',      uniq('chassi'));
+  fillList('lf_linha_list',       uniq('linha'));
+  fillList('lf_cidade_list',      uniq('cidade'));
+  fillList('lf_regiao_list',      uniq('regiao'));
+  fillList('lf_grupo_list',       uniq('grupo'));
+  fillList('lf_responsavel_list', uniq('responsavel'));
+  fillList('lf_peca_list',        uniq('peca_nome'));
+  fillList('lf_sistema_list',     uniq('sistema'));
+  fillList('lf_fornecedor_list',  uniq('fornecedor'));
+}
+
+// Pré-preenche data e hora atuais
+function prefillLaunchNow() {
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mi = String(now.getMinutes()).padStart(2, '0');
+  const dataEl = document.getElementById('lf_data');
+  const horaEl = document.getElementById('lf_horario');
+  if (dataEl) dataEl.value = `${yyyy}-${mm}-${dd}`;
+  if (horaEl) horaEl.value = `${hh}:${mi}`;
+}
+
+function periodoFromHora(hora) {
+  if (!hora) return '';
+  const h = parseInt(String(hora).slice(0, 2), 10);
+  if (isNaN(h)) return '';
+  return h < 6 ? 'Madrugada' : h < 12 ? 'Manhã' : h < 18 ? 'Tarde' : 'Noite';
+}
+
+function buildLaunchPayload(formData) {
+  // Deriva campos automáticos
+  const data = formData.data || '';
+  const horario = formData.horario || '';
+  const dObj = data ? parseLocalDate(data) : null;
+  const periodo = formData.periodo || periodoFromHora(horario);
+  const dia_semana = dObj ? DIA_SEMANA[dObj.getDay()] : '';
+  const mes_nome  = dObj ? MES_NOMES[dObj.getMonth()] : '';
+  const ano       = dObj ? dObj.getFullYear() : '';
+
+  // ID simples baseado em timestamp (evita colisão)
+  const id = 'PV-' + Date.now().toString(36).toUpperCase();
+
+  // Construir objeto final indexado pelo CABEÇALHO da planilha
+  const internal = {
+    ...formData,
+    periodo,
+    dia_semana,
+    mes_nome,
+    ano,
+    is_real: 'Real',  // todo lançamento é considerado real
+    id,
+    feriado: formData.feriado ? 'Sim' : 'Não',
+    em_garantia: formData.em_garantia ? 'Sim' : 'Não',
+  };
+
+  const payload = {};
+  LAUNCH_FIELD_MAP.forEach(([internalKey, sheetHeader]) => {
+    const v = internal[internalKey];
+    if (v !== undefined && v !== null && v !== '') {
+      payload[sheetHeader] = v;
+    } else {
+      payload[sheetHeader] = '';
+    }
+  });
+  return payload;
+}
+
+function readLaunchForm() {
+  const form = document.getElementById('launchForm');
+  if (!form) return null;
+  const fd = new FormData(form);
+  const obj = {};
+  for (const [k, v] of fd.entries()) {
+    obj[k] = typeof v === 'string' ? v.trim() : v;
+  }
+  // Checkboxes não vêm em FormData se não checados
+  obj.feriado = !!form.querySelector('#lf_feriado')?.checked;
+  obj.em_garantia = !!form.querySelector('#lf_em_garantia')?.checked;
+  return obj;
+}
+
+function validateLaunchForm(d) {
+  const required = [
+    ['data', 'Data'],
+    ['horario', 'Horário'],
+    ['veiculo', 'Nº do Veículo'],
+    ['chassi', 'Chassi'],
+    ['cidade', 'Cidade'],
+    ['setor', 'Setor'],
+    ['gravidade', 'Gravidade'],
+    ['defeito', 'Defeito'],
+  ];
+  const missing = required.filter(([k]) => !d[k] || String(d[k]).trim() === '');
+  return missing.map(([, label]) => label);
+}
+
+function clearLaunchForm() {
+  const form = document.getElementById('launchForm');
+  if (!form) return;
+  form.reset();
+  prefillLaunchNow();
+  setLaunchStatus('aguardando envio', '');
+}
+
+async function submitLaunch(ev) {
+  if (ev) ev.preventDefault();
+  const submitBtn = document.getElementById('btnLaunchSubmit');
+  const data = readLaunchForm();
+  if (!data) return;
+
+  const missing = validateLaunchForm(data);
+  if (missing.length) {
+    showToast('Preencha: ' + missing.join(', '), 'error');
+    setLaunchStatus('campos obrigatórios', 'err');
+    return;
+  }
+
+  if (!SHEETS_POST_URL) {
+    showToast('Configure a URL do Apps Script (SHEETS_POST_URL) para habilitar o envio.', 'warn');
+    setLaunchStatus('config pendente', 'err');
+    return;
+  }
+
+  const payload = buildLaunchPayload(data);
+
+  submitBtn.disabled = true;
+  const originalLabel = submitBtn.textContent;
+  submitBtn.textContent = 'Enviando…';
+  setLaunchStatus('enviando…', '');
+
+  try {
+    // Usamos text/plain para evitar preflight CORS — Apps Script não responde OPTIONS.
+    // O Apps Script lê e.postData.contents do mesmo jeito.
+    const resp = await fetch(SHEETS_POST_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+    });
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const txt = await resp.text();
+    let json = null;
+    try { json = JSON.parse(txt); } catch { /* ignore */ }
+    if (json && json.success === false) {
+      throw new Error(json.error || 'Erro retornado pelo Apps Script');
+    }
+
+    showToast('Socorro lançado com sucesso! Atualizando…', 'success');
+    setLaunchStatus('enviado ✓', 'ok');
+    clearLaunchForm();
+    // Atualiza os dados do dashboard
+    setTimeout(() => fetchData(true), 500);
+  } catch (err) {
+    console.error('Erro ao enviar socorro:', err);
+    showToast('Falha ao enviar: ' + err.message, 'error');
+    setLaunchStatus('erro no envio', 'err');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalLabel;
+  }
+}
+
+function setupLaunchTab() {
+  const form = document.getElementById('launchForm');
+  if (!form) return;
+
+  form.addEventListener('submit', submitLaunch);
+
+  document.getElementById('btnLaunchClear')?.addEventListener('click', () => {
+    if (confirm('Limpar todos os campos do formulário?')) clearLaunchForm();
+  });
+  document.getElementById('btnLaunchFillNow')?.addEventListener('click', prefillLaunchNow);
+
+  // Auto-derivar período quando muda a hora
+  document.getElementById('lf_horario')?.addEventListener('change', (e) => {
+    const periodoEl = document.getElementById('lf_periodo');
+    if (periodoEl && !periodoEl.value) {
+      const p = periodoFromHora(e.target.value);
+      if (p) periodoEl.value = p;
+    }
+  });
+
+  // Botão de geolocalização
+  document.getElementById('btnGeo')?.addEventListener('click', () => {
+    if (!navigator.geolocation) {
+      showToast('Geolocalização não está disponível neste navegador.', 'warn');
+      return;
+    }
+    showToast('Obtendo localização…', 'info');
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        document.getElementById('lf_lat').value  = pos.coords.latitude.toFixed(6);
+        document.getElementById('lf_lng').value  = pos.coords.longitude.toFixed(6);
+        showToast('Localização preenchida.', 'success');
+      },
+      (err) => {
+        showToast('Não foi possível obter localização: ' + err.message, 'error');
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  });
+
+  // Aviso de configuração
+  const warning = document.getElementById('launchConfigWarning');
+  if (warning) warning.style.display = SHEETS_POST_URL ? 'none' : 'block';
+
+  // Pré-preencher data/hora no primeiro acesso
+  prefillLaunchNow();
+}
+
+// ============================================
 // TAB SWITCHING
 // ============================================
 function switchTab(id) {
@@ -4838,10 +5706,14 @@ function switchTab(id) {
     parts: { crumb: 'Operações / Cadeia de Suprimentos', title: 'Peças &amp; <em>Fornecedores</em>' },
     predict: { crumb: 'Operações / Inteligência', title: 'Análise <em>Preditiva</em>' },
     records: { crumb: 'Operações / Registros', title: 'Base de <em>Registros</em>' },
+    launch: { crumb: 'Operações / Lançamento', title: 'Lançar <em>Socorro</em>' },
   };
   document.getElementById('crumb').textContent = titles[id].crumb;
   document.getElementById('pageTitle').innerHTML = titles[id].title;
 
+  if (id === 'launch') {
+    populateLaunchDatalists();
+  }
   if (id === 'map') {
     setTimeout(() => {
       initMap();
@@ -5301,6 +6173,7 @@ function renderAll() {
   if (active === 'parts') { renderPartsAll(); }
   if (active === 'predict') { renderPredictKPIs(); renderForecast(); renderAlerts(); renderQpkChart(); renderMttrChart(); renderSlaChart(); renderHealthList(); renderRecs(); renderSazonChart(); renderCpkChart(); renderAnomChart(); }
   if (active === 'records') renderRecordsTable();
+  if (active === 'launch') populateLaunchDatalists();
 }
 
 // ============================================
@@ -5331,6 +6204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
   setupRecordsFilters();
+  setupLaunchTab();
 
   // refresh manual
   const btnRefresh = document.getElementById('btnRefresh');
